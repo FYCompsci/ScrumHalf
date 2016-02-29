@@ -4,10 +4,14 @@ var animate = window.requestAnimationFrame || window.webkitRequestAnimationFrame
 };
 var canvas = $("#game-canvas")[0];
 var context = canvas.getContext('2d');
-var width = 800;
-var height = 800;
+var width = 1250;
+var height = 600;
 
 var keysDown = {};
+
+var update = function(){
+    // template update function
+}
 
 var render = function () {
     context.fillStyle = "#000000";
