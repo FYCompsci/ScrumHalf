@@ -18,20 +18,34 @@ function rect(x,y,w,h) {
 }
 function renderMap(map){
   for (i = 0; i < map.length; i++){
-    console.log((i%25)*50);
-    console.log((i/25)*50);
+    //console.log((i%25)*50);
+    //console.log((i/25)*50);
     if (map[i] == 1){
+      /*
       context.fillStyle = "green";
       context.strokeStyle = "black";
       rect((i%25)*50,(Math.floor(i/25))*50,50,50);
+      */
+      context.drawImage(grassBlock, (i%25)*50,(Math.floor(i/25))*50,50,50);
     }
     else{
+      /*
       context.fillStyle = "white";
       context.strokeStyle = "black";
       rect((i%25)*50,(Math.floor(i/25)*50),50,50);
+      */
+      context.drawImage(goldBlock, (i%25)*50,(Math.floor(i/25))*50,50,50);
     }
   }
 }
+
+//map elements
+var goldBlock = new Image();
+goldBlock.src = "resources/goldBlock.png";
+
+var grassBlock = new Image();
+grassBlock.src = "resources/grassBlock.png";
+
 var levelMap = [
   0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
   0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -47,6 +61,8 @@ var levelMap = [
   1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
 ];
 
+
+// animation steps
 var update = function(){
     // template update function
 }
@@ -64,6 +80,9 @@ var step = function () {
 };
 
 animate(step);
+
+
+// key listeners
 
 window.addEventListener("keydown", function (event) {
     keysDown[event.keyCode] = true;
