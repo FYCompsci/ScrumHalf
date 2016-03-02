@@ -12,6 +12,10 @@ var height = 600;
 //declare key related array
 var keysDown = {};
 
+//declare game related empties/start content
+var started = false;
+
+
 function rect(x,y,w,h) {
   context.beginPath();
   context.rect(x,y,w,h);
