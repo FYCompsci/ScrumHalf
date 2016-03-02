@@ -35,25 +35,27 @@ class Player {
     this.x += deltax;
     this.y += deltay;
   }
-  /*
+
   jump(){
     if (this.jumping === false){
       console.log("START JUMP");
       this.jumping = true;
-      this.move(0,-5);
+      this.move(0,-10);
       setTimeout(this.jumpOver(),1000);
     }
   }
   jumpOver(){
-    console.log("END JUMP");
-    this.jumping = false;
-  }*/
+    if (this.jumping === true){
+      console.log("END JUMP");
+      this.jumping = false;
+    }
+  }
 
   update(map){
     for (var key in keysDown) {
       var value = Number(key);
       if (value == 38){
-        //this.jump();
+        this.jump();
       }
       else if (value == 37) {
         if (this.x - 5 > 0){
@@ -78,8 +80,6 @@ class Player {
 
 function renderMap(map){
   for (i = 0; i < map.length; i++){
-    //console.log((i%25)*50);
-    //console.log((i/25)*50);
     if (map[i] == 1){
       /*
       context.fillStyle = "green";
