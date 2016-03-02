@@ -55,7 +55,7 @@ class Player {
 
   update(map){
     if (this.jumping === false){
-      if (map[(Math.floor(this.x/50))+(Math.floor(this.y/50)+1)*25] === 0 && map[(Math.floor((this.x+this.width-5)/50))+(Math.floor(this.y/50)+1)*25] === 0){
+      if (map[(Math.floor(this.x/50))+(Math.floor((this.y+this.height)/50))*25] === 0 && map[(Math.floor((this.x+this.width-5)/50))+(Math.floor((this.y+this.height)/50))*25] === 0){
         this.move(0,5);
       }
     }
@@ -63,7 +63,7 @@ class Player {
       var value = Number(key);
       if (value == 38){ // up
         if (this.y -5 > 0){
-          if (map[(Math.floor(this.x/50))+(Math.floor(this.y/50)-1)*25] === 0){
+          if (map[(Math.floor(this.x/50))+(Math.floor((this.y-this.height)/50))*25] === 0){
             this.jump();
           }
         }
@@ -76,15 +76,17 @@ class Player {
         }
       } else if (value == 39) { // right
         if (this.x + this.width + 5 < width){
-          if (map[(Math.floor(this.x/50))+1+(Math.floor(this.y/50))*25] === 0){
+          if (map[(Math.floor((this.x+this.width)/50))+(Math.floor(this.y/50))*25] === 0){
             this.move(5, 0);
           }
         }
       }
     }
+    /*
     if (map[(Math.floor((this.x-1)/50)+1)+(Math.floor(this.y/50))*25] === 2){
       this.move(0,-50);
     }
+    */
   }
   draw(){
     //context.drawImage(playerImage, this.x, this.y);
