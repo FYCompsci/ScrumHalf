@@ -37,13 +37,13 @@ class Player {
     this.x += deltax;
     this.y += deltay;
   }
-var myVar
+
   jump(){
     if (this.jumping === false){
       //console.log("START JUMP");
       this.jumping = true;
       this.move(0,-10);
-      myVar = setTimeout(this.jumpOver(),1000);
+      setTimeout(this.jumpOver(),1000);
     }
   }
   jumpOver(){
