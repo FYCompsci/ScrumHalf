@@ -43,7 +43,7 @@ class Player {
       //console.log("START JUMP");
       this.jumping = true;
       this.move(0,-10);
-      setTimeout(this.jumpOver(),1000);
+      window.setTimeout(this.jumpOver(),1000);
     }
   }
   jumpOver(){
