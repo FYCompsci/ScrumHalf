@@ -152,11 +152,13 @@ goldBlockImage.src = "resources/goldBlock.png";
 var grassBlockImage = new Image();
 grassBlockImage.src = "resources/grassBlock.png";
 
+/*
 var skyBlockImage = new Image();
 skyBlockImage.src = "resources/skyBlock.png";
 
 var playerImage = new Image();
 playerImage.src = "resources/player.gif";
+*/
 
 //player declaration
 var player = new Player(0,0,25,50,false,false);
