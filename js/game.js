@@ -140,9 +140,10 @@ class Platform extends Block {
 
 //map functions
 
-function updateMap(world,stage,level){
+function updateMap(world,stg,lvl){
   if (world == 1){
-    levelMap = world1[stage][level];
+    player.moveTo(0,0);
+    levelMap = world1[stg][lvl];
   }
 }
 
