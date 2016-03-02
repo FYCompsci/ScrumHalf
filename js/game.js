@@ -63,7 +63,7 @@ class Player {
       var value = Number(key);
       if (value == 38){ // up
         if (this.y -5 > 0){
-          if (map[(Math.floor(this.x/50))+(Math.floor((this.y-this.height)/50))*25] === 0){
+          if (map[(Math.floor(this.x/50))+(Math.floor((this.y-1)/50))*25] === 0){
             this.jump();
           }
         }
