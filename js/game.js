@@ -35,6 +35,7 @@ class Player {
     this.x += deltax;
     this.y += deltay;
   }
+  /*
   jump(){
     if (this.jumping === false){
       console.log("START JUMP");
@@ -46,12 +47,13 @@ class Player {
   jumpOver(){
     console.log("END JUMP");
     this.jumping = false;
-  }
+  }*/
+
   update(map){
     for (var key in keysDown) {
       var value = Number(key);
       if (value == 38){
-        this.jump();
+        //this.jump();
       }
       else if (value == 37) {
         if (this.x - 5 > 0){
@@ -64,7 +66,7 @@ class Player {
       }
     }
     if (this.jumping === false){
-      if (map[(Math.floor(this.x/50))+(Math.floor(this.y/50)+1)*25] == 0){
+      if (map[(Math.floor(this.x/50))+(Math.floor(this.y/50)+1)*25] === 0){
         this.move(0,5);
       }
     }
