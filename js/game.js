@@ -12,6 +12,10 @@ var height = 600;
 //declare key related array
 var keysDown = {};
 
+var levelMap = [];
+var level = 0;
+var stage = 0;
+
 //declare game related empties/start content
 var started = false;
 
@@ -36,6 +40,11 @@ class Player {
   move(deltax, deltay){
     this.x += deltax;
     this.y += deltay;
+  }
+
+  moveTo(x,y){
+    this.x = x;
+    this.y = y;
   }
 
   jump(){
@@ -74,17 +83,24 @@ class Player {
             this.move(-5, 0);
           }
         }
+        else{
+          console.log("Hit the edge.");
+        }
       } else if (value == 39) { // right
         if (this.x + this.width + 5 < width){
           if (map[(Math.floor((this.x+this.width)/50))+(Math.floor(this.y/50))*25] === 0){
             this.move(5, 0);
           }
         }
+        else{
+          stage += 1;
+          updateMap(1,level,stage);
+        }
       }
     }
     /*
-    if (map[(Math.floor((this.x-1)/50)+1)+(Math.floor(this.y/50))*25] === 2){
-      this.move(0,-50);
+    if (map[(Math.floor((this.x)/50))+(Math.floor((this.y)/50))*25] === 2){
+      this.moveTo(this.x,Math.floor((this.y-50)/50)*50);
     }
     */
   }
@@ -122,6 +138,14 @@ class Platform extends Block {
   }
 }
 
+//map functions
+
+function updateMap(world,stage,level){
+  if (world == 1){
+    levelMap = world1[stage][level];
+  }
+}
+
 function renderMap(map){
   for (i = 0; i < map.length; i++){
     if (map[i] == 1){
@@ -141,6 +165,7 @@ function renderMap(map){
 }
 
 function beginGame(){
+  updateMap(1,level,stage);
   started = true;
 }
 
@@ -167,22 +192,6 @@ var player = new Player(0,0,25,50,false,false);
 var goldBlock = new Platform(0,0,50,50,goldBlockImage);
 var grassBlock = new Platform(0,0,50,50,grassBlockImage);
 
-var levelMap = [
-  0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-  0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-  0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-  0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-  0,0,0,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,0,0,0,0,
-  0,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-  0,0,0,0,0,0,0,2,2,0,0,0,0,2,2,0,0,0,2,2,0,0,0,0,0,
-  0,2,2,2,0,2,2,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,
-  0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,
-  1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-  1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-  1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-];
-
-
 // animation steps
 var update = function(){
   if (started === true){
@@ -196,7 +205,7 @@ var render = function () {
     context.fillRect(0, 0, width, height);
     context.fillStyle = "#000000";
     context.font = "30px Arial";
-    context.fillText("Welcome to team Scrum Half's game! \n Press the Start Game button!",100,300);
+    context.fillText("Welcome to team Scrum Half's game! Press the Start Game button!",100,300);
   }
   else{
     context.fillStyle = "#000000";
