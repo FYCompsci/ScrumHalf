@@ -95,6 +95,19 @@ class Player {
   }
 }
 
+class Block {
+  constructor (x,y,width,height){
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+  }
+  draw(map){
+    context.fillStyle = "#000000";
+    context.fillRect(this.x, this.y, this.width, this.height);
+  }
+}
+
 function renderMap(map){
   for (i = 0; i < map.length; i++){
     if (map[i] == 1){
