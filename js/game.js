@@ -25,9 +25,11 @@ function rect(x,y,w,h) {
 }
 
 class Player {
-  constructor(x,y,jumping,falling){
+  constructor(x,y,width,height,jumping,falling){
     this.x = x;
     this.y = y;
+    this.width = width;
+    this.height = height;
     this.jumping = jumping;
     this.falling = falling;
   }
@@ -38,7 +40,7 @@ class Player {
 
   jump(){
     if (this.jumping === false){
-      console.log("START JUMP");
+      //console.log("START JUMP");
       this.jumping = true;
       this.move(0,-10);
       setTimeout(this.jumpOver(),1000);
@@ -46,35 +48,48 @@ class Player {
   }
   jumpOver(){
     if (this.jumping === true){
-      console.log("END JUMP");
+      //console.log("END JUMP");
       this.jumping = false;
     }
   }
 
   update(map){
-    for (var key in keysDown) {
-      var value = Number(key);
-      if (value == 38){
-        this.jump();
-      }
-      else if (value == 37) {
-        if (this.x - 5 > 0){
-          this.move(-5, 0);
-        }
-      } else if (value == 39) {
-        if (this.x + 55 < width){
-          this.move(5, 0);
-        }
-      }
-    }
     if (this.jumping === false){
-      if (map[(Math.floor(this.x/50))+(Math.floor(this.y/50)+1)*25] === 0){
+      if (map[(Math.floor(this.x/50))+(Math.floor(this.y/50)+1)*25] === 0 && map[(Math.floor((this.x+this.width-5)/50))+(Math.floor(this.y/50)+1)*25] === 0){
         this.move(0,5);
       }
     }
+    for (var key in keysDown) {
+      var value = Number(key);
+      if (value == 38){ // up
+        if (this.y -5 > 0){
+          if (map[(Math.floor(this.x/50))+(Math.floor(this.y/50)-1)*25] === 0){
+            this.jump();
+          }
+        }
+      }
+      else if (value == 37) { // left
+        if (this.x - 5 > 0){
+          if (map[(Math.floor(this.x/50))+(Math.floor(this.y/50))*25] === 0){
+            this.move(-5, 0);
+          }
+        }
+      } else if (value == 39) { // right
+        if (this.x + this.width + 5 < width){
+          if (map[(Math.floor(this.x/50))+1+(Math.floor(this.y/50))*25] === 0){
+            this.move(5, 0);
+          }
+        }
+      }
+    }
+    if (map[(Math.floor((this.x-1)/50)+1)+(Math.floor(this.y/50))*25] === 2){
+      this.move(0,-50);
+    }
   }
   draw(){
-    context.drawImage(playerImage, this.x, this.y);
+    //context.drawImage(playerImage, this.x, this.y);
+    context.fillStyle = "#000000";
+    context.fillRect(this.x, this.y, this.width, this.height);
   }
 }
 
@@ -107,7 +122,7 @@ function beginGame(){
 }
 
 //player declaration
-var player = new Player(0,0,false,false);
+var player = new Player(0,0,25,50,false,false);
 
 //map elements
 var goldBlock = new Image();
@@ -125,13 +140,13 @@ playerImage.src = "resources/player.gif";
 var levelMap = [
   0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
   0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-  0,0,0,0,0,0,0,0,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,
-  0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-  0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
   0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-  0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,2,2,2,2,2,2,0,0,0,0,
-  0,0,0,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
   0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+  0,0,0,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,0,0,0,0,
+  0,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+  0,0,0,0,0,0,0,2,2,0,0,0,0,2,2,0,0,0,2,2,0,0,0,0,0,
+  0,2,2,2,0,2,2,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,
+  0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,
   1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
   1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
   1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
@@ -146,9 +161,12 @@ var update = function(){
 };
 
 var render = function () {
-  if (started === false){
-    context.fillStyle = "#000000";
+  if (started === false){ //start game screen
+    context.fillStyle = "#FFFFFF";
     context.fillRect(0, 0, width, height);
+    context.fillStyle = "#000000";
+    context.font = "30px Arial";
+    context.fillText("Welcome to team Scrum Half's game! \n Press the Start Game button!",100,300);
   }
   else{
     context.fillStyle = "#000000";
