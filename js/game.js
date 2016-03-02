@@ -102,32 +102,40 @@ class Block {
     this.width = width;
     this.height = height;
   }
+  assign(newx,newy){
+    this.x = newx;
+    this.y = newy;
+  }
   draw(map){
     context.fillStyle = "#000000";
     context.fillRect(this.x, this.y, this.width, this.height);
   }
 }
 
+class Platform extends Block {
+  constructor (x,y,width,height,image){
+    super(x,y,width,height);
+    this.image = image;
+  }
+  draw(map){
+    context.drawImage(this.image, (i%25)*50,(Math.floor(i/25))*50,50,50);
+  }
+}
+
 function renderMap(map){
   for (i = 0; i < map.length; i++){
     if (map[i] == 1){
-      /*
-      context.fillStyle = "green";
-      context.strokeStyle = "black";
-      rect((i%25)*50,(Math.floor(i/25))*50,50,50);
-      */
-      context.drawImage(grassBlock, (i%25)*50,(Math.floor(i/25))*50,50,50);
+      grassBlock.assign((i%25)*50,(Math.floor(i/25))*50);
+      grassBlock.draw(map);
     }
     else if (map[i] == 2){
-      context.drawImage(goldBlock, (i%25)*50,(Math.floor(i/25))*50,50,50);
+      goldBlock.assign((i%25)*50,(Math.floor(i/25))*50);
+      goldBlock.draw(map);
     }
     else{
-
       context.fillStyle = "lightblue";
       context.strokeStyle = "lightblue";
       rect((i%25)*50,(Math.floor(i/25)*50),50,50);
-
-      //context.drawImage(skyBlock, (i%25)*50,(Math.floor(i/25))*50,50,50);
     }
   }
 }
@@ -136,21 +144,26 @@ function beginGame(){
   started = true;
 }
 
-//player declaration
-var player = new Player(0,0,25,50,false,false);
+//image imports
 
-//map elements
-var goldBlock = new Image();
-goldBlock.src = "resources/goldBlock.png";
+var goldBlockImage = new Image();
+goldBlockImage.src = "resources/goldBlock.png";
 
-var grassBlock = new Image();
-grassBlock.src = "resources/grassBlock.png";
+var grassBlockImage = new Image();
+grassBlockImage.src = "resources/grassBlock.png";
 
-var skyBlock = new Image();
-skyBlock.src = "resources/skyBlock.png";
+var skyBlockImage = new Image();
+skyBlockImage.src = "resources/skyBlock.png";
 
 var playerImage = new Image();
 playerImage.src = "resources/player.gif";
+
+//player declaration
+var player = new Player(0,0,25,50,false,false);
+
+//other class declarations
+var goldBlock = new Platform(0,0,50,50,goldBlockImage);
+var grassBlock = new Platform(0,0,50,50,grassBlockImage);
 
 var levelMap = [
   0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
