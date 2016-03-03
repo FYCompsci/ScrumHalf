@@ -18,6 +18,7 @@ var stage = 0;
 
 //declare game related empties/start content
 var started = false;
+var lives;
 
 
 function rect(x,y,w,h) {
@@ -62,9 +63,24 @@ class Player {
     }
   }
 
+  die(){
+    if (lives - 1 < 1){
+      console.log("Total Death!");
+    }
+    else{
+      stage = 0;
+      lives -= 1;
+      this.moveTo(5,7*50);
+      console.log(lives);
+    }
+  }
+
   update(map){
-    if (this.jumping === false){
-      if (map[(Math.floor(this.x/50))+(Math.floor((this.y+this.height)/50))*25] === 0 && map[(Math.floor((this.x+this.width-5)/50))+(Math.floor((this.y+this.height)/50))*25] === 0){
+    if (this.jumping === false){// falling code
+      if (this.y + this.height + 5 > cheight){
+        this.die();
+      }
+      else if (map[(Math.floor(this.x/50))+(Math.floor((this.y+this.height)/50))*25] === 0 && map[(Math.floor((this.x+this.width-5)/50))+(Math.floor((this.y+this.height)/50))*25] === 0){
         this.move(0,5);
       }
     }
@@ -72,21 +88,20 @@ class Player {
       var value = Number(key);
       if (value == 38){ // up
         if (this.y -5 > 0){
-          if (map[(Math.floor(this.x/50))+(Math.floor((this.y-1)/50))*25] === 0){
+          if (map[(Math.floor(this.x/50))+(Math.floor((this.y-1)/50))*25] === 0 && map[(Math.floor((this.x+this.width)/50))+(Math.floor((this.y-1)/50))*25] === 0){
             this.jump();
           }
         }
       }
       else if (value == 37) { // left
         if (this.x - 5 > 0){
-          if (map[(Math.floor(this.x/50))+(Math.floor(this.y/50))*25] === 0 && map[(Math.floor(this.x/50))+(Math.floor((this.y+this.height-1)/50))*25] === 0){
+          if (map[(Math.floor((this.x)/50))+(Math.floor(this.y/50))*25] === 0 && map[(Math.floor((this.x-1)/50))+(Math.floor((this.y+this.height-1)/50))*25] === 0) {
             this.move(-5, 0);
           }
         }
         else{
           if (stage > 0){
             stage -= 1;
-            updateMap(1,level,stage);
             this.moveTo(cwidth-this.width-5,7*50);
           }
         }
@@ -104,7 +119,6 @@ class Player {
             level += 1;
             stage = 0;
           }
-          updateMap(1,level,stage);
           this.moveTo(0,7*50);
         }
       }
@@ -153,7 +167,7 @@ class Platform extends Block {
 
 function updateMap(world,stg,lvl){
   if (world == 1){
-    levelMap = world1[stg][lvl];
+    levelMap = world1_map[stg][lvl];
   }
 }
 
@@ -167,6 +181,10 @@ function renderMap(map){
       goldBlock.assign((i%25)*50,(Math.floor(i/25))*50);
       goldBlock.draw(map);
     }
+    else if (map[i] == 4){
+      puzzleBlock.assign((i%25)*50,(Math.floor(i/25))*50);
+      puzzleBlock.draw(map);
+    }
     else{
       context.fillStyle = "lightblue";
       context.strokeStyle = "lightblue";
@@ -175,8 +193,18 @@ function renderMap(map){
   }
 }
 
+function renderText(){
+  context.fillStyle = "#000000";
+  context.font = "16px Arial";
+  context.fillText(String(level+1) + "-" + String(stage+1),20,20);
+  context.fillText("Lives: " + lives,1150,20);
+  //for (i = 0; i < world1_text[level][stage].length, i ++;){
+    context.fillText(world1_text[level][stage][0],world1_text[level][stage][1],world1_text[level][stage][2]);
+  //}
+}
+
 function beginGame(){
-  updateMap(1,level,stage);
+  lives = 3;
   started = true;
 }
 
@@ -187,6 +215,10 @@ goldBlockImage.src = "resources/goldBlock.png";
 
 var grassBlockImage = new Image();
 grassBlockImage.src = "resources/grassBlock.png";
+
+var puzzleBlockImage = new Image();
+puzzleBlockImage.src = "resources/skyBlock.png";
+
 
 /*
 var skyBlockImage = new Image();
@@ -202,10 +234,12 @@ var player = new Player(0,0,25,50,false,false);
 //other class declarations
 var goldBlock = new Platform(0,0,50,50,goldBlockImage);
 var grassBlock = new Platform(0,0,50,50,grassBlockImage);
+var puzzleBlock = new Platform(0,0,50,50,puzzleBlockImage);
 
 // animation steps
 var update = function(){
   if (started === true){
+    updateMap(1,level,stage);
     player.update(levelMap);
   }
 };
@@ -219,11 +253,8 @@ var render = function () {
     context.fillText("Welcome to team Scrum Half's game! Press the Start Game button!",100,300);
   }
   else{
-    /*
-    context.fillStyle = "#000000";
-    context.fillRect(0, 0, cwidth, cheight);
-    */
     renderMap(levelMap);
+    renderText();
     player.draw();
   }
 };
