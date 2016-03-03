@@ -6,8 +6,8 @@ var animate = window.requestAnimationFrame || window.webkitRequestAnimationFrame
 //canvas-based var declaration
 var canvas = $("#game-canvas")[0];
 var context = canvas.getContext('2d');
-var width = 1250;
-var height = 600;
+var cwidth = 1250;
+var cheight = 600;
 
 //declare key related array
 var keysDown = {};
@@ -79,22 +79,33 @@ class Player {
       }
       else if (value == 37) { // left
         if (this.x - 5 > 0){
-          if (map[(Math.floor(this.x/50))+(Math.floor(this.y/50))*25] === 0){
+          if (map[(Math.floor(this.x/50))+(Math.floor(this.y/50))*25] === 0 && map[(Math.floor(this.x/50))+(Math.floor((this.y+this.height-1)/50))*25] === 0){
             this.move(-5, 0);
           }
         }
         else{
-          console.log("Hit the edge.");
+          if (stage > 0){
+            stage -= 1;
+            updateMap(1,level,stage);
+            this.moveTo(cwidth-this.width-5,7*50);
+          }
         }
       } else if (value == 39) { // right
-        if (this.x + this.width + 5 < width){
-          if (map[(Math.floor((this.x+this.width)/50))+(Math.floor(this.y/50))*25] === 0){
+        if (this.x + this.width + 5 < cwidth){
+          if (map[(Math.floor((this.x+this.width)/50))+(Math.floor(this.y/50))*25] === 0 && map[(Math.floor((this.x+this.width)/50))+(Math.floor((this.y+this.height-1)/50))*25] === 0){
             this.move(5, 0);
           }
         }
         else{
-          stage += 1;
+          if (stage < 8){
+            stage += 1;
+          }
+          else{
+            level += 1;
+            stage = 0;
+          }
           updateMap(1,level,stage);
+          this.moveTo(0,7*50);
         }
       }
     }
@@ -142,7 +153,6 @@ class Platform extends Block {
 
 function updateMap(world,stg,lvl){
   if (world == 1){
-    player.moveTo(0,0);
     levelMap = world1[stg][lvl];
   }
 }
@@ -203,14 +213,16 @@ var update = function(){
 var render = function () {
   if (started === false){ //start game screen
     context.fillStyle = "#FFFFFF";
-    context.fillRect(0, 0, width, height);
+    context.fillRect(0, 0, cwidth, cheight);
     context.fillStyle = "#000000";
     context.font = "30px Arial";
     context.fillText("Welcome to team Scrum Half's game! Press the Start Game button!",100,300);
   }
   else{
+    /*
     context.fillStyle = "#000000";
-    context.fillRect(0, 0, width, height);
+    context.fillRect(0, 0, cwidth, cheight);
+    */
     renderMap(levelMap);
     player.draw();
   }
