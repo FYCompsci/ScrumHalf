@@ -17,7 +17,6 @@ var levelMap = [];
 var level = 0;
 var stage = 0;
 var started = false;
-var lives;
 
 //make rectangle function
 function rect(x,y,w,h) {
@@ -30,13 +29,14 @@ function rect(x,y,w,h) {
 
 //player class
 class Player {
-  constructor(x,y,width,height,jumping,falling){
+  constructor(x,y,width,height,lives,jumping,climbing){
     this.x = x;
     this.y = y;
     this.width = width;
     this.height = height;
+    this.lives = lives;
     this.jumping = jumping;
-    this.falling = falling;
+    this.climbing = climbing;
   }
   move(deltax, deltay){
     this.x += deltax;
@@ -62,19 +62,24 @@ class Player {
   }
 
   die(){
-    if (lives - 1 < 1){
-      console.log("Total Death!");
+    if (this.lives - 1 < 1){
+      this.gameOver();
     }
     else{
-      stage = 0;
-      lives -= 1;
+      this.lives -= 1;
       this.moveTo(5,7*50);
-      console.log(lives);
     }
   }
 
+  gameOver(){
+    level = 0;
+    stage = 0;
+    this.lives = 3;
+    this.moveTo(5,0);
+  }
+
   update(map){
-    if (this.jumping === false){// falling code
+    if (this.jumping === false && this.climbing === false){// falling code
       if (this.y + this.height + 5 > cheight){
         this.die();
       }
@@ -86,7 +91,7 @@ class Player {
       var value = Number(key);
       if (value == 38){ // up
         if (this.y -5 > 0){
-          if (map[(Math.floor(this.x/50))+(Math.floor((this.y-1)/50))*25] === 0 && map[(Math.floor((this.x+this.width)/50))+(Math.floor((this.y-1)/50))*25] === 0){
+          if (map[(Math.floor(this.x/50))+(Math.floor((this.y-1)/50))*25] === 0){
             this.jump();
           }
         }
@@ -100,7 +105,7 @@ class Player {
         else{
           if (stage > 0){
             stage -= 1;
-            this.moveTo(cwidth-this.width-5,7*50);
+            this.moveTo(cwidth-this.width-5,this.y);
           }
         }
       } else if (value == 39) { // right
@@ -117,7 +122,7 @@ class Player {
             level += 1;
             stage = 0;
           }
-          this.moveTo(0,7*50);
+          this.moveTo(0,this.y);
         }
       }
     }
@@ -175,6 +180,10 @@ function renderMap(map){
       goldBlock.assign((i%25)*50,(Math.floor(i/25))*50);
       goldBlock.draw(map);
     }
+    else if (map[i] == 3){
+      ladderBlock.assign((i%25)*50,(Math.floor(i/25))*50);
+      ladderBlock.draw(map);
+    }
     else if (map[i] == 4){
       puzzleBlock.assign((i%25)*50,(Math.floor(i/25))*50);
       puzzleBlock.draw(map);
@@ -193,14 +202,14 @@ function renderText(){
   context.fillStyle = "#000000";
   context.font = "16px Arial";
   context.fillText(String(level+1) + "-" + String(stage+1),20,20);
-  context.fillText("Lives: " + lives,1150,20);
+  context.fillText("Lives: " + player.lives,1150,20);
+  context.fillText("Pieces: 0",1150,40);
   //for (i = 0; i < world1_text[level][stage].length, i ++;){
     context.fillText(world1_text[level][stage][0],world1_text[level][stage][1],world1_text[level][stage][2]);
   //}
 }
 
 function beginGame(){
-  lives = 3;
   started = true;
 }
 
@@ -215,6 +224,9 @@ grassBlockImage.src = "resources/grassBlock.png";
 var puzzleBlockImage = new Image();
 puzzleBlockImage.src = "resources/skyBlock.png";
 
+var ladderBlockImage = new Image();
+ladderBlockImage.src = "resources/ladderBlock.jpg";
+
 
 /*
 var skyBlockImage = new Image();
@@ -225,12 +237,13 @@ playerImage.src = "resources/player.gif";
 */
 
 //player declaration
-var player = new Player(0,0,25,50,false,false);
+var player = new Player(0,0,25,50,3,false,false);
 
 //other class declarations
 var goldBlock = new Platform(0,0,50,50,goldBlockImage);
 var grassBlock = new Platform(0,0,50,50,grassBlockImage);
 var puzzleBlock = new Platform(0,0,50,50,puzzleBlockImage);
+var ladderBlock = new Platform(0,0,50,50,ladderBlockImage);
 
 // animation steps
 var update = function(){
@@ -250,8 +263,8 @@ var render = function () {
   }
   else{
     renderMap(levelMap);
-    renderText();
     player.draw();
+    renderText();
   }
 };
 

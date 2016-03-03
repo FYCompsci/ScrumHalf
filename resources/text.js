@@ -1,28 +1,28 @@
 var world1_text = [
   [//level 1
     [//stage 1
-      "Swag", 500, 500
+      "Ooh, a puzzle piece! Press the right arrow key to go get it!", 400, 100
     ],
     [//stage 2
-      "Swag", 500, 500
+      "Oh no! A gap! Press the up arrow key to jump over it.", 400, 100
     ],
     [//stage 3
-      "Swag", 500, 500
+      "Some platforms? Wonder if you can jump over them?", 400, 100
     ],
     [//stage 4
-      "Swag", 500, 500
+      "Oh cool, a ladder! Just don't walk under it!", 400, 100
     ],
     [//stage 5
-      "Swag", 500, 500
+      "Oh wow, that platform might need some repairs. Jump in the meantime.", 400, 100
     ],
     [//stage 6
-      "Swag", 500, 500
+      "Hardcore Parkour? Seems dangerous.", 400, 100
     ],
     [//stage 7
-      "Swag", 500, 500
+      "Careful, diving headfirst is the number 8 cause of concussions in WonderWorld!", 400, 100
     ],
     [//stage 8
-      "Swag", 500, 500
+      "This looks pretty tough. Don't worry, I believe in you!", 400, 100
     ],
     [//stage 9
       "Swag", 500, 500
