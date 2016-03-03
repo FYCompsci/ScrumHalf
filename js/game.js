@@ -3,7 +3,7 @@ var animate = window.requestAnimationFrame || window.webkitRequestAnimationFrame
   window.setTimeout(callback, 1000 / 60);
 };
 
-//canvas-based var declaration
+//canvas-based var declarations
 var canvas = $("#game-canvas")[0];
 var context = canvas.getContext('2d');
 var cwidth = 1250;
@@ -12,15 +12,14 @@ var cheight = 600;
 //declare key related array
 var keysDown = {};
 
+//game-related var declarations
 var levelMap = [];
 var level = 0;
 var stage = 0;
-
-//declare game related empties/start content
 var started = false;
 var lives;
 
-
+//make rectangle function
 function rect(x,y,w,h) {
   context.beginPath();
   context.rect(x,y,w,h);
@@ -29,6 +28,7 @@ function rect(x,y,w,h) {
   context.stroke();
 }
 
+//player class
 class Player {
   constructor(x,y,width,height,jumping,falling){
     this.x = x;
@@ -50,7 +50,6 @@ class Player {
 
   jump(){
     if (this.jumping === false){
-      //console.log("START JUMP");
       this.jumping = true;
       this.move(0,-10);
       setTimeout(this.jumpOver(),1000);
@@ -58,7 +57,6 @@ class Player {
   }
   jumpOver(){
     if (this.jumping === true){
-      //console.log("END JUMP");
       this.jumping = false;
     }
   }
@@ -84,7 +82,7 @@ class Player {
         this.move(0,5);
       }
     }
-    for (var key in keysDown) {
+    for (var key in keysDown) { // n-key rollover movement code
       var value = Number(key);
       if (value == 38){ // up
         if (this.y -5 > 0){
@@ -123,19 +121,14 @@ class Player {
         }
       }
     }
-    /*
-    if (map[(Math.floor((this.x)/50))+(Math.floor((this.y)/50))*25] === 2){
-      this.moveTo(this.x,Math.floor((this.y-50)/50)*50);
-    }
-    */
   }
   draw(){
-    //context.drawImage(playerImage, this.x, this.y);
     context.fillStyle = "#000000";
     context.fillRect(this.x, this.y, this.width, this.height);
   }
 }
 
+// block default class
 class Block {
   constructor (x,y,width,height){
     this.x = x;
@@ -153,6 +146,7 @@ class Block {
   }
 }
 
+//platform child class
 class Platform extends Block {
   constructor (x,y,width,height,image){
     super(x,y,width,height);
@@ -192,6 +186,8 @@ function renderMap(map){
     }
   }
 }
+
+//text functions
 
 function renderText(){
   context.fillStyle = "#000000";
