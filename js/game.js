@@ -50,8 +50,8 @@ class Player {
 
   jump(){
     if (this.jumping === false){
-      setTimeout(this.jumpOver(),1000);
       this.jumping = true;
+      setTimeout(this.jumpOver(),1000);
       this.move(0,-50);
     }
   }
