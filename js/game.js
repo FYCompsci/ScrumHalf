@@ -227,6 +227,9 @@ puzzleBlockImage.src = "resources/skyBlock.png";
 var ladderBlockImage = new Image();
 ladderBlockImage.src = "resources/ladderBlock.jpg";
 
+var skyBackgroundImage = new Image();
+skyBackgroundImage.src = "resources/skyBackground.jpg";
+
 
 /*
 var skyBlockImage = new Image();
@@ -262,6 +265,12 @@ var render = function () {
     context.fillText("Welcome to team Scrum Half's game! Press the Start Game button!",100,300);
   }
   else{
+    /*
+    context.fillStyle = "lightblue";
+    context.strokeStyle = "lightblue";
+    rect(0,0,cwidth,cheight);
+    */
+    //context.drawImage(skyBackgroundImage,0,0,cwidth,cheight);
     renderMap(levelMap);
     player.draw();
     renderText();
