@@ -52,7 +52,7 @@ class Player {
     if (this.jumping === false){
       setTimeout(this.jumpOver(),1000);
       this.jumping = true;
-      this.move(0,-10);
+      this.move(0,-50);
     }
   }
   jumpOver(){
