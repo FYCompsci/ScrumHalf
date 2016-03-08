@@ -52,7 +52,7 @@ class Player {
     if (this.jumping === false){
       this.jumping = true;
       setTimeout(this.jumpOver(),1000);
-      this.move(0,-50);
+      this.move(0,-10);
     }
   }
   jumpOver(){
@@ -170,6 +170,16 @@ function updateMap(world,stg,lvl){
   }
 }
 
+class Ladder extends Block{
+  constructor (x,y,width,height,image){
+    super(x,y,width,height);
+    this.image = image;
+  }
+  draw(map){
+    context.drawImage(this.image, (i%25)*50,(Math.floor(i/25))*50,50,50);
+  }
+}
+
 function renderMap(map){
   for (i = 0; i < map.length; i++){
     if (map[i] == 1){
@@ -246,7 +256,7 @@ var player = new Player(0,0,25,50,3,false,false);
 var goldBlock = new Platform(0,0,50,50,goldBlockImage);
 var grassBlock = new Platform(0,0,50,50,grassBlockImage);
 var puzzleBlock = new Platform(0,0,50,50,puzzleBlockImage);
-var ladderBlock = new Platform(0,0,50,50,ladderBlockImage);
+var ladderBlock = new Ladder(0,0,50,50,ladderBlockImage);
 
 // animation steps
 var update = function(){
