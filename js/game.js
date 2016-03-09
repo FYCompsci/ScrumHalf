@@ -109,6 +109,12 @@ class Player {
       if(map[(Math.floor(x/50))+(Math.floor((y-1)/50))*25] === 4){
         return 4;
       }
+      else if (map[(Math.floor((x)/50))+(Math.floor(y/50))*25] === 3 || map[(Math.floor((x-1)/50))+(Math.floor((y+height-1)/50))*25] === 3) {
+        return 3;
+      }
+      else if(map[(Math.floor((x+width)/50))+(Math.floor(y/50))*25] === 3 || map[(Math.floor((x+width)/50))+(Math.floor((y+height-1)/50))*25] === 3){
+        return 3;
+      }
       else if(map[(Math.floor(x/50))+(Math.floor((y-1)/50))*25] === 0 && y -5 > 0){
         return 0;
       }
@@ -152,7 +158,6 @@ class Player {
   }
 
   update(map){
-    this.running = false;
     if (this.jumping === false && this.climbing === false){// falling code
       if (this.y + this.height + 5 > cheight){
         this.die();
@@ -168,11 +173,17 @@ class Player {
         this.falling = false;
       }
     }
+    this.climbing = false;
+    this.running = false;
     for (var key in keysDown) { // n-key rollover movement code
       var value = Number(key);
       if (value == 38){ // up
         if (this.checkCollision(this.x,this.y,this.width,this.height,"up",map) === 4){
           this.pieces += 1;
+        }
+        else if (this.checkCollision(this.x,this.y,this.width,this.height,"up",map) === 3){
+          this.move(0,-3);
+          this.climbing = true;
         }
         else if (this.checkCollision(this.x,this.y,this.width,this.height,"up",map) === 0){
           this.jump();
