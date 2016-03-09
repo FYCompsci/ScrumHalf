@@ -18,6 +18,25 @@ var level = 0;
 var stage = 0;
 var started = false;
 
+//image imports
+
+var goldBlockImage = new Image();
+goldBlockImage.src = "resources/goldBlock.png";
+
+var grassBlockImage = new Image();
+grassBlockImage.src = "resources/grassBlock.png";
+
+var puzzleBlockImage = new Image();
+puzzleBlockImage.src = "resources/skyBlock.png";
+
+var ladderBlockImage = new Image();
+ladderBlockImage.src = "resources/ladderBlock.jpg";
+
+var skyBackgroundImage = new Image();
+skyBackgroundImage.src = "resources/skyBackground.jpg";
+
+var playerImage = new Image();
+
 //make rectangle function
 function rect(x,y,w,h) {
   context.beginPath();
@@ -40,6 +59,12 @@ class Player {
     this.falling = false;
     this.direction = "right";
     this.image = image;
+  }
+  getLives(){
+    return this.lives;
+  }
+  setLives(n){
+    this.lives = n;
   }
   move(deltax, deltay){
     this.x += deltax;
@@ -66,19 +91,12 @@ class Player {
 
   die(){
     if (this.lives - 1 < 1){
-      this.gameOver();
+      restartGame();
     }
     else{
       this.lives -= 1;
       this.moveTo(5,7*50);
     }
-  }
-
-  gameOver(){
-    level = 0;
-    stage = 0;
-    this.lives = 3;
-    this.moveTo(5,0);
   }
 
   checkCollision(x,y,width,height,direction,map){
@@ -293,35 +311,29 @@ function renderText(){
   //}
 }
 
+// game functions
 function beginGame(){
   started = true;
 }
+function restartGame(){
+  level = 0;
+  stage = 0;
+  player.setLives(3);
+  player.moveTo(5,0);
+  started = false;
+}
 
-//image imports
-
-var goldBlockImage = new Image();
-goldBlockImage.src = "resources/goldBlock.png";
-
-var grassBlockImage = new Image();
-grassBlockImage.src = "resources/grassBlock.png";
-
-var puzzleBlockImage = new Image();
-puzzleBlockImage.src = "resources/skyBlock.png";
-
-var ladderBlockImage = new Image();
-ladderBlockImage.src = "resources/ladderBlock.jpg";
-
-var skyBackgroundImage = new Image();
-skyBackgroundImage.src = "resources/skyBackground.jpg";
-
-var playerImage = new Image();
-//playerImage.src = "resources/player/kirbyNormalRight.png";
-
-
-/*
-var skyBlockImage = new Image();
-skyBlockImage.src = "resources/skyBlock.png";
-*/
+// update button funciton
+function updateButton(){
+  if (started === true){
+    $("#game-button").attr("onclick","restartGame()");
+    $("#game-button").html("Restart Game");
+  }
+  else{
+    $("#game-button").attr("onclick","beginGame()");
+    $("#game-button").html("Start Game");
+  }
+}
 
 //player declaration
 var player = new Player(0,0,25,25,3,playerImage);
@@ -334,6 +346,7 @@ var ladderBlock = new Ladder(0,0,50,50,ladderBlockImage);
 
 // animation steps
 var update = function(){
+  updateButton();
   if (started === true){
     updateMap(1,level,stage);
     player.update(levelMap);
