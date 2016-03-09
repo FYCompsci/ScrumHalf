@@ -71,6 +71,9 @@ class Player {
   getPieces(){
     return this.pieces;
   }
+  setPieces(n){
+    this.pieces = n;
+  }
   move(deltax, deltay){
     this.x += deltax;
     this.y += deltay;
@@ -222,6 +225,8 @@ class Player {
           else{
             level += 1;
             stage = 0;
+            this.setPieces(0);
+            this.setLives(3);
           }
           this.moveTo(0,this.y);
         }
@@ -354,6 +359,7 @@ function restartGame(){
   stage = 0;
   player.setLives(3);
   player.moveTo(5,0);
+  player.setPieces(0);
   started = false;
 }
 
