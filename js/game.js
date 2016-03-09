@@ -182,7 +182,7 @@ class Player {
           this.pieces += 1;
         }
         else if (this.checkCollision(this.x,this.y,this.width,this.height,"up",map) === 3){
-          this.move(0,-3);
+          this.move(0,-5);
           this.climbing = true;
         }
         else if (this.checkCollision(this.x,this.y,this.width,this.height,"up",map) === 0){
