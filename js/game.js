@@ -29,14 +29,17 @@ function rect(x,y,w,h) {
 
 //player class
 class Player {
-  constructor(x,y,width,height,lives,jumping,climbing){
+  constructor(x,y,width,height,lives,image){
     this.x = x;
     this.y = y;
     this.width = width;
     this.height = height;
     this.lives = lives;
-    this.jumping = jumping;
-    this.climbing = climbing;
+    this.jumping = false;
+    this.climbing = false;
+    this.falling = false;
+    this.direction = "right";
+    this.image = image;
   }
   move(deltax, deltay){
     this.x += deltax;
@@ -78,28 +81,77 @@ class Player {
     this.moveTo(5,0);
   }
 
+  checkCollision(x,y,width,height,direction,map){
+    if (direction == "up"){
+      if(map[(Math.floor(x/50))+(Math.floor((y-1)/50))*25] === 4){
+        return 4;
+      }
+      else if(map[(Math.floor(x/50))+(Math.floor((y-1)/50))*25] === 0 && y -5 > 0){
+        return 0;
+      }
+      else{
+        return 1;
+      }
+    }
+    else if (direction == "down"){
+      if(map[(Math.floor(x/50))+(Math.floor((y+height)/50))*25] == 4 || map[(Math.floor((x+width-5)/50))+(Math.floor((y+height)/50))*25] == 4){
+        return 4;
+      }
+      else if (map[(Math.floor(x/50))+(Math.floor((y+height)/50))*25] === 0 && map[(Math.floor((x+width-5)/50))+(Math.floor((y+height)/50))*25] === 0){
+        return 0;
+      }
+      else{
+        return 1;
+      }
+    }
+    else if (direction == "left"){
+      if (map[(Math.floor((x)/50))+(Math.floor(y/50))*25] === 4 || map[(Math.floor((x-1)/50))+(Math.floor((y+height-1)/50))*25] === 4) {
+        return 4;
+      }
+      else if (map[(Math.floor((x)/50))+(Math.floor(y/50))*25] === 0 && map[(Math.floor((x-1)/50))+(Math.floor((y+height-1)/50))*25] === 0) {
+        return 0;
+      }
+      else{
+        return 1;
+      }
+    }
+    else if (direction == "right"){
+      if(map[(Math.floor((x+width)/50))+(Math.floor(y/50))*25] === 4 || map[(Math.floor((x+width)/50))+(Math.floor((y+height-1)/50))*25] === 4){
+        return 4;
+      }
+      else if (map[(Math.floor((x+width)/50))+(Math.floor(y/50))*25] === 0 && map[(Math.floor((x+width)/50))+(Math.floor((y+height-1)/50))*25] === 0){
+        return 0;
+      }
+      else{
+        return 1;
+      }
+    }
+  }
+
   update(map){
     if (this.jumping === false && this.climbing === false){// falling code
       if (this.y + this.height + 5 > cheight){
         this.die();
       }
-      else if (map[(Math.floor(this.x/50))+(Math.floor((this.y+this.height)/50))*25] === 0 && map[(Math.floor((this.x+this.width-5)/50))+(Math.floor((this.y+this.height)/50))*25] === 0){
+      else if (this.checkCollision(this.x,this.y,this.width,this.height,"down",map) === 0){
         this.move(0,5);
+        this.falling = true;
+      }
+      else{
+        this.falling = false;
       }
     }
     for (var key in keysDown) { // n-key rollover movement code
       var value = Number(key);
       if (value == 38){ // up
-        if (this.y -5 > 0){
-          if (map[(Math.floor(this.x/50))+(Math.floor((this.y-1)/50))*25] === 0){
-            this.jump();
-          }
+        if (this.checkCollision(this.x,this.y,this.width,this.height,"up",map) === 0){
+          this.jump();
         }
       }
       else if (value == 37) { // left
         if (this.x - 5 > 0){
-          if (map[(Math.floor((this.x)/50))+(Math.floor(this.y/50))*25] === 0 && map[(Math.floor((this.x-1)/50))+(Math.floor((this.y+this.height-1)/50))*25] === 0) {
-            this.move(-5, 0);
+          if (this.checkCollision(this.x,this.y,this.width,this.height,"left",map) === 0){
+            this.move(-5,0);
           }
         }
         else{
@@ -108,10 +160,11 @@ class Player {
             this.moveTo(cwidth-this.width-5,this.y);
           }
         }
+        this.direction = "left";
       } else if (value == 39) { // right
         if (this.x + this.width + 5 < cwidth){
-          if (map[(Math.floor((this.x+this.width)/50))+(Math.floor(this.y/50))*25] === 0 && map[(Math.floor((this.x+this.width)/50))+(Math.floor((this.y+this.height-1)/50))*25] === 0){
-            this.move(5, 0);
+          if (this.checkCollision(this.x,this.y,this.width,this.height,"right",map) === 0){
+            this.move(5,0);
           }
         }
         else{
@@ -124,12 +177,33 @@ class Player {
           }
           this.moveTo(0,this.y);
         }
+        this.direction = "right";
       }
     }
   }
   draw(){
+    /*
     context.fillStyle = "#000000";
     context.fillRect(this.x, this.y, this.width, this.height);
+    */
+    var srcString = "resources/player/kirby";
+    if (this.jumping === true || this.climbing === true){
+      srcString += "Up";
+    }
+    else if (this.falling === true){
+      srcString += "Down";
+    }
+    else{
+      srcString += "Normal";
+    }
+    if (this.direction == "right"){
+      srcString += "Right.png";
+    }
+    else{
+      srcString += "Left.png";
+    }
+    this.image.src = srcString;
+    context.drawImage(this.image, this.x,this.y);
   }
 }
 
@@ -240,17 +314,17 @@ ladderBlockImage.src = "resources/ladderBlock.jpg";
 var skyBackgroundImage = new Image();
 skyBackgroundImage.src = "resources/skyBackground.jpg";
 
+var playerImage = new Image();
+//playerImage.src = "resources/player/kirbyNormalRight.png";
+
 
 /*
 var skyBlockImage = new Image();
 skyBlockImage.src = "resources/skyBlock.png";
-
-var playerImage = new Image();
-playerImage.src = "resources/player.gif";
 */
 
 //player declaration
-var player = new Player(0,0,25,50,3,false,false);
+var player = new Player(0,0,25,25,3,playerImage);
 
 //other class declarations
 var goldBlock = new Platform(0,0,50,50,goldBlockImage);
