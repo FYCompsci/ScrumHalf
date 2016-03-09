@@ -54,6 +54,7 @@ class Player {
     this.width = width;
     this.height = height;
     this.lives = lives;
+    this.pieces = 0;
     this.jumping = false;
     this.climbing = false;
     this.falling = false;
@@ -65,6 +66,9 @@ class Player {
   }
   setLives(n){
     this.lives = n;
+  }
+  getPieces(){
+    return this.pieces;
   }
   move(deltax, deltay){
     this.x += deltax;
@@ -151,6 +155,9 @@ class Player {
       if (this.y + this.height + 5 > cheight){
         this.die();
       }
+      else if (this.checkCollision(this.x,this.y,this.width,this.height,"down",map) === 4){
+        this.pieces += 1;
+      }
       else if (this.checkCollision(this.x,this.y,this.width,this.height,"down",map) === 0){
         this.move(0,5);
         this.falling = true;
@@ -162,13 +169,19 @@ class Player {
     for (var key in keysDown) { // n-key rollover movement code
       var value = Number(key);
       if (value == 38){ // up
-        if (this.checkCollision(this.x,this.y,this.width,this.height,"up",map) === 0){
+        if (this.checkCollision(this.x,this.y,this.width,this.height,"up",map) === 4){
+          this.pieces += 1;
+        }
+        else if (this.checkCollision(this.x,this.y,this.width,this.height,"up",map) === 0){
           this.jump();
         }
       }
       else if (value == 37) { // left
         if (this.x - 5 > 0){
-          if (this.checkCollision(this.x,this.y,this.width,this.height,"left",map) === 0){
+          if (this.checkCollision(this.x,this.y,this.width,this.height,"left",map) === 4){
+            this.pieces += 1;
+          }
+          else if (this.checkCollision(this.x,this.y,this.width,this.height,"left",map) === 0){
             this.move(-5,0);
           }
         }
@@ -181,7 +194,10 @@ class Player {
         this.direction = "left";
       } else if (value == 39) { // right
         if (this.x + this.width + 5 < cwidth){
-          if (this.checkCollision(this.x,this.y,this.width,this.height,"right",map) === 0){
+          if (this.checkCollision(this.x,this.y,this.width,this.height,"right",map) === 4){
+            this.pieces += 1;
+          }
+          else if (this.checkCollision(this.x,this.y,this.width,this.height,"right",map) === 0){
             this.move(5,0);
           }
         }
@@ -304,8 +320,8 @@ function renderText(){
   context.fillStyle = "#000000";
   context.font = "16px Arial";
   context.fillText(String(level+1) + "-" + String(stage+1),20,20);
-  context.fillText("Lives: " + player.lives,1150,20);
-  context.fillText("Pieces: 0",1150,40);
+  context.fillText("Lives: " + player.getLives(),1150,20);
+  context.fillText("Pieces: " + player.getPieces(),1150,40);
   //for (i = 0; i < world1_text[level][stage].length, i ++;){
     context.fillText(world1_text[level][stage][0],world1_text[level][stage][1],world1_text[level][stage][2]);
   //}
