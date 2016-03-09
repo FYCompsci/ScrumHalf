@@ -58,6 +58,7 @@ class Player {
     this.jumping = false;
     this.climbing = false;
     this.falling = false;
+    this.running = false;
     this.direction = "right";
     this.image = image;
   }
@@ -151,6 +152,7 @@ class Player {
   }
 
   update(map){
+    this.running = false;
     if (this.jumping === false && this.climbing === false){// falling code
       if (this.y + this.height + 5 > cheight){
         this.die();
@@ -192,6 +194,7 @@ class Player {
           }
         }
         this.direction = "left";
+        this.running = true;
       } else if (value == 39) { // right
         if (this.x + this.width + 5 < cwidth){
           if (this.checkCollision(this.x,this.y,this.width,this.height,"right",map) === 4){
@@ -212,6 +215,7 @@ class Player {
           this.moveTo(0,this.y);
         }
         this.direction = "right";
+        this.running = true;
       }
     }
   }
@@ -226,6 +230,9 @@ class Player {
     }
     else if (this.falling === true){
       srcString += "Down";
+    }
+    else if (this.running === true){
+      srcString += "Run";
     }
     else{
       srcString += "Normal";
