@@ -90,7 +90,7 @@ class Player {
   jump(){
     if (this.jumping === false){
       this.jumping = true;
-      this.move(0,-50);
+      this.move(0,-60);
     }
   }
 
