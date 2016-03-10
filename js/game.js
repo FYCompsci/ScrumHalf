@@ -32,6 +32,9 @@ puzzleBlockImage.src = "resources/skyBlock.png";
 var ladderBlockImage = new Image();
 ladderBlockImage.src = "resources/ladderBlock.jpg";
 
+var fireBlockImage = new Image();
+fireBlockImage.src = "resources/player.gif";
+
 var skyBackgroundImage = new Image();
 skyBackgroundImage.src = "resources/skyBackground.jpg";
 
@@ -118,6 +121,9 @@ class Player {
       else if(map[(Math.floor((x+width)/50))+(Math.floor(y/50))*25] === 3 || map[(Math.floor((x+width)/50))+(Math.floor((y+height-1)/50))*25] === 3){
         return 3;
       }
+      else if(map[(Math.floor(x/50))+(Math.floor((y-1)/50))*25] === 5){
+        return 5;
+      }
       else if(map[(Math.floor(x/50))+(Math.floor((y-1)/50))*25] === 0 && y -5 > 0){
         return 0;
       }
@@ -128,6 +134,9 @@ class Player {
     else if (direction == "down"){
       if(map[(Math.floor(x/50))+(Math.floor((y+height)/50))*25] == 4 || map[(Math.floor((x+width-5)/50))+(Math.floor((y+height)/50))*25] == 4){
         return 4;
+      }
+      else if(map[(Math.floor(x/50))+(Math.floor((y+height)/50))*25] == 5 || map[(Math.floor((x+width-5)/50))+(Math.floor((y+height)/50))*25] == 5){
+        return 5;
       }
       else if (map[(Math.floor(x/50))+(Math.floor((y+height)/50))*25] === 0 && map[(Math.floor((x+width-5)/50))+(Math.floor((y+height)/50))*25] === 0){
         return 0;
@@ -140,6 +149,9 @@ class Player {
       if (map[(Math.floor((x)/50))+(Math.floor(y/50))*25] === 4 || map[(Math.floor((x-1)/50))+(Math.floor((y+height-1)/50))*25] === 4) {
         return 4;
       }
+      else if (map[(Math.floor((x)/50))+(Math.floor(y/50))*25] === 5 || map[(Math.floor((x-1)/50))+(Math.floor((y+height-1)/50))*25] === 5) {
+        return 5;
+      }
       else if (map[(Math.floor((x)/50))+(Math.floor(y/50))*25] === 0 && map[(Math.floor((x-1)/50))+(Math.floor((y+height-1)/50))*25] === 0) {
         return 0;
       }
@@ -150,6 +162,9 @@ class Player {
     else if (direction == "right"){
       if(map[(Math.floor((x+width)/50))+(Math.floor(y/50))*25] === 4 || map[(Math.floor((x+width)/50))+(Math.floor((y+height-1)/50))*25] === 4){
         return 4;
+      }
+      else if(map[(Math.floor((x+width)/50))+(Math.floor(y/50))*25] === 5 || map[(Math.floor((x+width)/50))+(Math.floor((y+height-1)/50))*25] === 5){
+        return 5;
       }
       else if (map[(Math.floor((x+width)/50))+(Math.floor(y/50))*25] === 0 && map[(Math.floor((x+width)/50))+(Math.floor((y+height-1)/50))*25] === 0){
         return 0;
@@ -163,6 +178,9 @@ class Player {
   update(map){
     if (this.jumping === false && this.climbing === false){// falling code
       if (this.y + this.height + 5 > cheight){
+        this.die();
+      }
+      else if (this.checkCollision(this.x,this.y,this.width,this.height,"down",map) === 5){
         this.die();
       }
       else if (this.checkCollision(this.x,this.y,this.width,this.height,"down",map) === 4){
@@ -181,7 +199,10 @@ class Player {
     for (var key in keysDown) { // n-key rollover movement code
       var value = Number(key);
       if (value == 38){ // up
-        if (this.checkCollision(this.x,this.y,this.width,this.height,"up",map) === 4){
+        if (this.checkCollision(this.x,this.y,this.width,this.height,"up",map) === 5){
+          this.die();
+        }
+        else if (this.checkCollision(this.x,this.y,this.width,this.height,"up",map) === 4){
           this.pieces += 1;
         }
         else if (this.checkCollision(this.x,this.y,this.width,this.height,"up",map) === 3){
@@ -194,7 +215,10 @@ class Player {
       }
       else if (value == 37) { // left
         if (this.x - 5 > 0){
-          if (this.checkCollision(this.x,this.y,this.width,this.height,"left",map) === 4){
+          if (this.checkCollision(this.x,this.y,this.width,this.height,"left",map) === 5){
+            this.die();
+          }
+          else if (this.checkCollision(this.x,this.y,this.width,this.height,"left",map) === 4){
             this.pieces += 1;
           }
           else if (this.checkCollision(this.x,this.y,this.width,this.height,"left",map) === 0){
@@ -211,7 +235,10 @@ class Player {
         this.running = true;
       } else if (value == 39) { // right
         if (this.x + this.width + 5 < cwidth){
-          if (this.checkCollision(this.x,this.y,this.width,this.height,"right",map) === 4){
+          if (this.checkCollision(this.x,this.y,this.width,this.height,"right",map) === 5){
+            this.die();
+          }
+          else if (this.checkCollision(this.x,this.y,this.width,this.height,"right",map) === 4){
             this.pieces += 1;
           }
           else if (this.checkCollision(this.x,this.y,this.width,this.height,"right",map) === 0){
@@ -293,21 +320,22 @@ class Platform extends Block {
   }
 }
 
-//map functions
-
-function updateMap(world,stg,lvl){
-  if (world == 1){
-    levelMap = world1_map[stg][lvl];
-  }
-}
-
-class Ladder extends Block{
+//obstacle child class
+class Obstacle extends Block{
   constructor (x,y,width,height,image){
     super(x,y,width,height);
     this.image = image;
   }
   draw(map){
     context.drawImage(this.image, (i%25)*50,(Math.floor(i/25))*50,50,50);
+  }
+}
+
+//map functions
+
+function updateMap(world,stg,lvl){
+  if (world == 1){
+    levelMap = world1_map[stg][lvl];
   }
 }
 
@@ -328,6 +356,10 @@ function renderMap(map){
     else if (map[i] == 4){
       puzzleBlock.assign((i%25)*50,(Math.floor(i/25))*50);
       puzzleBlock.draw(map);
+    }
+    else if (map[i] == 5){
+      fireBlock.assign((i%25)*50,(Math.floor(i/25))*50);
+      fireBlock.draw(map);
     }
     else{
       context.fillStyle = "lightblue";
@@ -382,7 +414,8 @@ var player = new Player(0,0,25,25,3,playerImage);
 var goldBlock = new Platform(0,0,50,50,goldBlockImage);
 var grassBlock = new Platform(0,0,50,50,grassBlockImage);
 var puzzleBlock = new Platform(0,0,50,50,puzzleBlockImage);
-var ladderBlock = new Ladder(0,0,50,50,ladderBlockImage);
+var ladderBlock = new Platform(0,0,50,50,ladderBlockImage);
+var fireBlock = new Obstacle(0,0,50,50,fireBlockImage);
 
 // animation steps
 var update = function(){
