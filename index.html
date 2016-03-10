@@ -6,32 +6,18 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>ScrumHalf</title>
     <link rel="stylesheet" href="css/bootstrap.css" />
+		<link rel="stylesheet" href="css/style.css" />
+		<link rel="icon" href="css/favicon.ico" />
   </head>
   <body>
-    <canvas id="game-canvas" height="600" width="1280"></canvas>
+    <canvas id="game-canvas" height="600" width="1250" style="padding-left:15px; padding-top:15px;"></canvas>
 		<div style="text-align:center;">
-			<button class="btn btn-primary" onclick="beginGame()">Start Game</button>
+			<button class="btn btn-primary" id="game-button"></button>
 		</div>
   </body>
-	<!--
-	<script src="https://google.github.io/traceur-compiler/bin/traceur.js"></script>
-	<script src="https://google.github.io/traceur-compiler/bin/BrowserSystem.js"></script>
-	<script src="https://google.github.io/traceur-compiler/src/bootstrap.js"></script>
--->
   <script src="js/jquery.js"></script>
   <script src="js/bootstrap.js"></script>
 	<script src="resources/maps.js"></script>
 	<script src="resources/text.js"></script>
 	<script src="js/game.js"></script>
-	<!--
-	<script type="text/javascript">
-		var started = false;
-		function beginGame(){
-			started = true;
-		}
-	</script>
-	<script type="module">
-	  import './js/game.js';
-	</script>
-	-->
 </html>

@@ -13,13 +13,13 @@ var world1_text = [
       "Oh cool, a ladder! Just don't walk under it!", 400, 100
     ],
     [//stage 5
-      "Oh wow, that platform might need some repairs. Jump in the meantime.", 400, 100
+      "Oh snap, that platform might need some repairs. Jump in the meantime.", 400, 100
     ],
     [//stage 6
       "Hardcore Parkour? Seems dangerous.", 400, 100
     ],
     [//stage 7
-      "Careful, diving headfirst is the number 8 cause of concussions in WonderWorld!", 400, 100
+      "Oh no, a fire? Is that Matt Wang's mixtape?", 400, 100
     ],
     [//stage 8
       "This looks pretty tough. Don't worry, I believe in you!", 400, 100
