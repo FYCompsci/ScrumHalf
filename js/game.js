@@ -90,15 +90,10 @@ class Player {
   jump(){
     if (this.jumping === false){
       this.jumping = true;
-      setTimeout(this.jumpOver(),1000);
-      this.move(0,-10);
+      this.move(0,-50);
     }
   }
-  jumpOver(){
-    if (this.jumping === true){
-      this.jumping = false;
-    }
-  }
+
 
   die(){
     if (this.lives - 1 < 1){
@@ -176,7 +171,7 @@ class Player {
   }
 
   update(map){
-    if (this.jumping === false && this.climbing === false){// falling code
+    if (this.climbing === false){// falling code
       if (this.y + this.height + 5 > cheight){
         this.die();
       }
@@ -192,6 +187,7 @@ class Player {
       }
       else{
         this.falling = false;
+        this.jumping = false;
       }
     }
     this.climbing = false;
