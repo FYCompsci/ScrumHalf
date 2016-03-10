@@ -30,7 +30,7 @@ var puzzleBlockImage = new Image();
 puzzleBlockImage.src = "resources/skyBlock.png";
 
 var ladderBlockImage = new Image();
-ladderBlockImage.src = "resources/ladderBlock.jpg";
+ladderBlockImage.src = "resources/ladderBlock.png";
 
 var fireBlockImage = new Image();
 fireBlockImage.src = "resources/player.gif";
@@ -115,12 +115,6 @@ class Player {
       if(map[(Math.floor(x/50))+(Math.floor((y-1)/50))*25] === 4){
         return 4;
       }
-      else if (map[(Math.floor((x)/50))+(Math.floor(y/50))*25] === 3 || map[(Math.floor((x-1)/50))+(Math.floor((y+height-1)/50))*25] === 3) {
-        return 3;
-      }
-      else if(map[(Math.floor((x+width)/50))+(Math.floor(y/50))*25] === 3 || map[(Math.floor((x+width)/50))+(Math.floor((y+height-1)/50))*25] === 3){
-        return 3;
-      }
       else if(map[(Math.floor(x/50))+(Math.floor((y-1)/50))*25] === 5){
         return 5;
       }
@@ -152,6 +146,9 @@ class Player {
       else if (map[(Math.floor((x)/50))+(Math.floor(y/50))*25] === 5 || map[(Math.floor((x-1)/50))+(Math.floor((y+height-1)/50))*25] === 5) {
         return 5;
       }
+      else if (map[(Math.floor((x)/50))+(Math.floor(y/50))*25] === 3 || map[(Math.floor((x-1)/50))+(Math.floor((y+height-1)/50))*25] === 3) {
+        return 3;
+      }
       else if (map[(Math.floor((x)/50))+(Math.floor(y/50))*25] === 0 && map[(Math.floor((x-1)/50))+(Math.floor((y+height-1)/50))*25] === 0) {
         return 0;
       }
@@ -165,6 +162,9 @@ class Player {
       }
       else if(map[(Math.floor((x+width)/50))+(Math.floor(y/50))*25] === 5 || map[(Math.floor((x+width)/50))+(Math.floor((y+height-1)/50))*25] === 5){
         return 5;
+      }
+      else if(map[(Math.floor((x+width)/50))+(Math.floor(y/50))*25] === 3 || map[(Math.floor((x+width)/50))+(Math.floor((y+height-1)/50))*25] === 3){
+        return 3;
       }
       else if (map[(Math.floor((x+width)/50))+(Math.floor(y/50))*25] === 0 && map[(Math.floor((x+width)/50))+(Math.floor((y+height-1)/50))*25] === 0){
         return 0;
@@ -205,7 +205,13 @@ class Player {
         else if (this.checkCollision(this.x,this.y,this.width,this.height,"up",map) === 4){
           this.pieces += 1;
         }
-        else if (this.checkCollision(this.x,this.y,this.width,this.height,"up",map) === 3){
+        else if (this.checkCollision(this.x,this.y,this.width,this.height,"left",map) === 3){
+          if (this.checkCollision(this.x,this.y,this.width,this.height,"up",map) != 1){
+            this.move(0,-5);
+            this.climbing = true;
+          }
+        }
+        else if (this.checkCollision(this.x,this.y,this.width,this.height,"right",map) === 3 && this.checkCollision(this.x,this.y,this.width,this.height,"up",map) === 0){
           this.move(0,-5);
           this.climbing = true;
         }
@@ -350,6 +356,8 @@ function renderMap(map){
       goldBlock.draw(map);
     }
     else if (map[i] == 3){
+      goldBlock.assign((i%25)*50,(Math.floor(i/25))*50);
+      goldBlock.draw(map);
       ladderBlock.assign((i%25)*50,(Math.floor(i/25))*50);
       ladderBlock.draw(map);
     }
