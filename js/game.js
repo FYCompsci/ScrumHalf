@@ -13,10 +13,17 @@ var cheight = 600;
 var keysDown = {};
 
 //game-related var declarations
-var levelMap = [];
+var started = false;
+
 var level = 0;
 var stage = 0;
-var started = false;
+
+var levelMap = [];
+var puzzleMap = [
+  [0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0]
+];
 
 //image imports
 
@@ -90,7 +97,7 @@ class Player {
   jump(){
     if (this.jumping === false){
       this.jumping = true;
-      this.move(0,-60);
+      this.move(0,-50);
     }
   }
 
@@ -108,7 +115,12 @@ class Player {
   checkCollision(x,y,width,height,direction,map){
     if (direction == "up"){
       if(map[(Math.floor(x/50))+(Math.floor((y-1)/50))*25] === 4){
-        return 4;
+        if (puzzleMap[level][stage] === 0){
+          return 4;
+        }
+        else{
+          return 0;
+        }
       }
       else if(map[(Math.floor(x/50))+(Math.floor((y-1)/50))*25] === 5){
         return 5;
@@ -122,7 +134,12 @@ class Player {
     }
     else if (direction == "down"){
       if(map[(Math.floor(x/50))+(Math.floor((y+height)/50))*25] == 4 || map[(Math.floor((x+width-5)/50))+(Math.floor((y+height)/50))*25] == 4){
-        return 4;
+        if (puzzleMap[level][stage] === 0){
+          return 4;
+        }
+        else{
+          return 0;
+        }
       }
       else if(map[(Math.floor(x/50))+(Math.floor((y+height)/50))*25] == 5 || map[(Math.floor((x+width-5)/50))+(Math.floor((y+height)/50))*25] == 5){
         return 5;
@@ -136,7 +153,12 @@ class Player {
     }
     else if (direction == "left"){
       if (map[(Math.floor((x)/50))+(Math.floor(y/50))*25] === 4 || map[(Math.floor((x-1)/50))+(Math.floor((y+height-1)/50))*25] === 4) {
-        return 4;
+        if (puzzleMap[level][stage] === 0){
+          return 4;
+        }
+        else{
+          return 0;
+        }
       }
       else if (map[(Math.floor((x)/50))+(Math.floor(y/50))*25] === 5 || map[(Math.floor((x-1)/50))+(Math.floor((y+height-1)/50))*25] === 5) {
         return 5;
@@ -153,7 +175,12 @@ class Player {
     }
     else if (direction == "right"){
       if(map[(Math.floor((x+width)/50))+(Math.floor(y/50))*25] === 4 || map[(Math.floor((x+width)/50))+(Math.floor((y+height-1)/50))*25] === 4){
-        return 4;
+        if (puzzleMap[level][stage] === 0){
+          return 4;
+        }
+        else{
+          return 0;
+        }
       }
       else if(map[(Math.floor((x+width)/50))+(Math.floor(y/50))*25] === 5 || map[(Math.floor((x+width)/50))+(Math.floor((y+height-1)/50))*25] === 5){
         return 5;
@@ -179,6 +206,7 @@ class Player {
         this.die();
       }
       else if (this.checkCollision(this.x,this.y,this.width,this.height,"down",map) === 4){
+        puzzleMap[level][stage] = 1;
         this.pieces += 1;
       }
       else if (this.checkCollision(this.x,this.y,this.width,this.height,"down",map) === 0){
@@ -199,6 +227,7 @@ class Player {
           this.die();
         }
         else if (this.checkCollision(this.x,this.y,this.width,this.height,"up",map) === 4){
+          puzzleMap[level][stage] = 1;
           this.pieces += 1;
         }
         else if (this.checkCollision(this.x,this.y,this.width,this.height,"left",map) === 3){
@@ -221,6 +250,7 @@ class Player {
             this.die();
           }
           else if (this.checkCollision(this.x,this.y,this.width,this.height,"left",map) === 4){
+            puzzleMap[level][stage] = 1;
             this.pieces += 1;
           }
           else if (this.checkCollision(this.x,this.y,this.width,this.height,"left",map) === 0){
@@ -241,6 +271,7 @@ class Player {
             this.die();
           }
           else if (this.checkCollision(this.x,this.y,this.width,this.height,"right",map) === 4){
+            puzzleMap[level][stage] = 1;
             this.pieces += 1;
           }
           else if (this.checkCollision(this.x,this.y,this.width,this.height,"right",map) === 0){
@@ -322,6 +353,17 @@ class Platform extends Block {
   }
 }
 
+//puzzle child class
+class Puzzle extends Block{
+  constructor (x,y,width,height,image){
+    super(x,y,width,height);
+    this.image = image;
+  }
+  draw(map){
+    context.drawImage(this.image, (i%25)*50,(Math.floor(i/25))*50,50,50);
+  }
+}
+
 //obstacle child class
 class Obstacle extends Block{
   constructor (x,y,width,height,image){
@@ -357,7 +399,7 @@ function renderMap(map){
       ladderBlock.assign((i%25)*50,(Math.floor(i/25))*50);
       ladderBlock.draw(map);
     }
-    else if (map[i] == 4){
+    else if (map[i] == 4 && puzzleMap[level][stage] === 0){
       puzzleBlock.assign((i%25)*50,(Math.floor(i/25))*50);
       puzzleBlock.draw(map);
     }
@@ -396,6 +438,11 @@ function restartGame(){
   player.setLives(3);
   player.moveTo(5,0);
   player.setPieces(0);
+  puzzleMap = [
+    [0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0]
+  ];
   started = false;
 }
 
