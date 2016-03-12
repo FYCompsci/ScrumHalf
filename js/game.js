@@ -415,24 +415,7 @@ function renderMap(map){
   }
 }
 
-//text functions
-
-function renderText(){
-  context.fillStyle = "#000000";
-  context.font = "16px Arial";
-  context.fillText(String(level+1) + "-" + String(stage+1),20,20);
-  context.fillText("Lives: " + player.getLives(),1150,20);
-  context.fillText("Pieces: " + player.getPieces(),1150,40);
-  //for (i = 0; i < world1_text[level][stage].length, i ++;){
-    context.fillText(world1_text[level][stage][0],world1_text[level][stage][1],world1_text[level][stage][2]);
-  //}
-}
-
-// game functions
-function beginGame(){
-  started = true;
-}
-function restartGame(){
+function restartMap(){
   level = 0;
   stage = 0;
   player.setLives(3);
@@ -443,6 +426,27 @@ function restartGame(){
     [0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0]
   ];
+}
+
+//text functions
+
+function renderText(){
+  context.fillStyle = "#000000";
+  context.font = "16px Arial";
+  context.fillText(String(level+1) + "-" + String(stage+1),20,20);
+  context.fillText("Lives: " + player.getLives(),1150,20);
+  context.fillText("Pieces: " + player.getPieces(),1150,40);
+  for (i = 0; i < world1_text[level][stage].length; i ++){
+    context.fillText(world1_text[level][stage][i][0],world1_text[level][stage][i][1],world1_text[level][stage][i][2]);
+  }
+}
+
+// game functions
+function beginGame(){
+  started = true;
+}
+function restartGame(){
+  restartMap();
   started = false;
 }
 
