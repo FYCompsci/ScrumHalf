@@ -103,13 +103,13 @@ class Player {
   }
 
 
-  die(){
+  die(type){
     if (this.lives - 1 < 1){
       restartGame();
     }
     else{
       this.lives -= 1;
-      alertText.setText("Oh no, you died!");
+      alertText.setText("Oh no, you died by " + type + "!");
       alertText.setActivated(1);
       this.moveTo(5,7*50);
     }
@@ -203,10 +203,10 @@ class Player {
   update(map){
     if (this.climbing === false){// falling code
       if (this.y + this.height + 5 > cheight){
-        this.die();
+        this.die("falling out of the world");
       }
       else if (this.checkCollision(this.x,this.y,this.width,this.height,"down",map) === 5){
-        this.die();
+        this.die("burning to death");
       }
       else if (this.checkCollision(this.x,this.y,this.width,this.height,"down",map) === 4){
         puzzleMap[level][stage] = 1;
@@ -227,7 +227,7 @@ class Player {
       var value = Number(key);
       if (value == 38){ // up
         if (this.checkCollision(this.x,this.y,this.width,this.height,"up",map) === 5){
-          this.die();
+          this.die("burning to death");
         }
         else if (this.checkCollision(this.x,this.y,this.width,this.height,"up",map) === 4){
           puzzleMap[level][stage] = 1;
@@ -250,7 +250,7 @@ class Player {
       else if (value == 37) { // left
         if (this.x - 5 > 0){
           if (this.checkCollision(this.x,this.y,this.width,this.height,"left",map) === 5){
-            this.die();
+            this.die("burning to death");
           }
           else if (this.checkCollision(this.x,this.y,this.width,this.height,"left",map) === 4){
             puzzleMap[level][stage] = 1;
@@ -272,7 +272,7 @@ class Player {
       } else if (value == 39) { // right
         if (this.x + this.width + 5 < cwidth){
           if (this.checkCollision(this.x,this.y,this.width,this.height,"right",map) === 5){
-            this.die();
+            this.die("burning to death");
           }
           else if (this.checkCollision(this.x,this.y,this.width,this.height,"right",map) === 4){
             puzzleMap[level][stage] = 1;
@@ -414,11 +414,11 @@ class Alert{
     this.text = newText;
   }
   draw(){
-    context.fillStyle = "lightyellow";
-    context.strokeStyle = "lightyellow";
+    context.fillStyle = "#d9534f";
+    context.strokeStyle = "#d9534f";
     rect(150,3,950,32);
-    context.fillStyle = "black";
-    context.strokeStyle = "black";
+    context.fillStyle = "white";
+    context.strokeStyle = "white";
     context.fillText(this.text,this.x,this.y);
   }
 }
@@ -495,12 +495,12 @@ function renderText(){
 
   context.textAlign = "center";
 
-  if (alertText.activated === true){
-    alertText.draw();
-  }
-
   for (i = 0; i < world1_text[level][stage].length; i ++){
     context.fillText(world1_text[level][stage][i][0],world1_text[level][stage][i][1],world1_text[level][stage][i][2]);
+  }
+
+  if (alertText.activated === true){
+    alertText.draw();
   }
 }
 
