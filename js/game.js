@@ -460,11 +460,13 @@ function renderMap(map){
       fireBlock.assign((i%25)*50,(Math.floor(i/25))*50);
       fireBlock.draw();
     }
+    /*
     else{
       context.fillStyle = "lightblue";
       context.strokeStyle = "lightblue";
       rect((i%25)*50,(Math.floor(i/25)*50),50,50);
     }
+    */
   }
 }
 
@@ -562,11 +564,11 @@ var render = function () {
     context.fillText("Welcome to team Scrum Half's game! Press the Start Game button!",625,285);
   }
   else{
-    /*
+    
     context.fillStyle = "lightblue";
     context.strokeStyle = "lightblue";
     rect(0,0,cwidth,cheight);
-    */
+
     //context.drawImage(skyBackgroundImage,0,0,cwidth,cheight);
     renderMap(levelMap);
     player.draw();
