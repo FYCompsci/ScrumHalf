@@ -324,8 +324,8 @@ class Player {
     this.image.src = srcString;
     context.drawImage(this.image, this.x,this.y);
     */
-    this.image.src = "resources/Player/spritesheetRight.png";
-    context.drawImage(this.image, ((this.anim_frame)%2)*32,0,32,32,this.x,this.y,32,32);
+    this.image.src = "resources/Player/kirbyNormalRightSpritesheet.png";
+    context.drawImage(this.image, (Math.floor((this.anim_frame)/30)%(this.image.width/32))*32,0,32,32,this.x,this.y,32,32);
     this.anim_frame += 1;
   }
 }
