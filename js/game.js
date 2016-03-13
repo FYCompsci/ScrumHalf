@@ -70,6 +70,7 @@ class Player {
     this.falling = false;
     this.running = false;
     this.direction = "right";
+    this.anim_frame = 0;
     this.image = image;
   }
   getLives(){
@@ -300,6 +301,7 @@ class Player {
     context.fillStyle = "#000000";
     context.fillRect(this.x, this.y, this.width, this.height);
     */
+    /*
     var srcString = "resources/player/kirby";
     if (this.jumping === true || this.climbing === true){
       srcString += "Up";
@@ -321,6 +323,10 @@ class Player {
     }
     this.image.src = srcString;
     context.drawImage(this.image, this.x,this.y);
+    */
+    this.image.src = "resources/Player/spritesheetRight.png";
+    context.drawImage(this.image, ((this.anim_frame)%2)*32,0,32,32,this.x,this.y,32,32);
+    this.anim_frame += 1;
   }
 }
 
