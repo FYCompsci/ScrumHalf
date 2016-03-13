@@ -301,8 +301,8 @@ class Player {
     context.fillStyle = "#000000";
     context.fillRect(this.x, this.y, this.width, this.height);
     */
-    /*
     var srcString = "resources/player/kirby";
+    var needs_sprite = false;
     if (this.jumping === true || this.climbing === true){
       srcString += "Up";
     }
@@ -311,22 +311,33 @@ class Player {
     }
     else if (this.running === true){
       srcString += "Run";
+      needs_sprite = true;
     }
     else{
       srcString += "Normal";
+      needs_sprite = true;
     }
     if (this.direction == "right"){
-      srcString += "Right.png";
+      srcString += "Right";
     }
     else{
-      srcString += "Left.png";
+      srcString += "Left";
     }
     this.image.src = srcString;
     context.drawImage(this.image, this.x,this.y);
-    */
-    this.image.src = "resources/Player/kirbyNormalRightSpritesheet.png";
-    context.drawImage(this.image, (Math.floor((this.anim_frame)/30)%(this.image.width/32))*32,0,32,32,this.x,this.y,32,32);
-    this.anim_frame += 1;
+
+    if (needs_sprite === true){
+      srcString += "Spritesheet.png";
+      this.image.src = srcString;
+      context.drawImage(this.image, (Math.floor((this.anim_frame)/30)%(this.image.width/32))*32,0,32,32,this.x,this.y,32,32);
+      this.anim_frame += 1;
+    }
+    else{
+      srcString += ".png"
+      this.image.src = srcString;
+      context.drawImage(this.image, this.x,this.y);
+      this.anim_frame = 0;
+    }
   }
 }
 
