@@ -286,13 +286,18 @@ class Player {
           if (stage < 8){
             stage += 1;
             alertText.setActivated(0);
+            this.moveTo(0,this.y);
           }
           else{
-            if (this.pieces = 9){
+            if (this.pieces == 9){
+              this.moveTo(0,this.y);
               newLevel();
             }
+            else{
+              alertText.setText("You don't have all 9 puzzle pieces!");
+              alertText.setActivated(1);
+            }
           }
-          this.moveTo(0,this.y);
         }
         this.direction = "right";
         this.running = true;
@@ -474,6 +479,7 @@ function restartMap(){
     [0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0]
   ];
+  alertText.setActivated(0);
 }
 
 function newLevel(){
