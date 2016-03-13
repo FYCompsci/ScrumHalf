@@ -109,6 +109,8 @@ class Player {
     }
     else{
       this.lives -= 1;
+      alertText.setText("Oh no, you died!");
+      alertText.setActivated(1);
       this.moveTo(5,7*50);
     }
   }
@@ -261,6 +263,7 @@ class Player {
         else{
           if (stage > 0){
             stage -= 1;
+            alertText.setActivated(0);
             this.moveTo(cwidth-this.width-5,this.y);
           }
         }
@@ -282,12 +285,12 @@ class Player {
         else{
           if (stage < 8){
             stage += 1;
+            alertText.setActivated(0);
           }
           else{
-            level += 1;
-            stage = 0;
-            this.setPieces(0);
-            this.setLives(3);
+            if (this.pieces = 9){
+              newLevel();
+            }
           }
           this.moveTo(0,this.y);
         }
@@ -353,7 +356,7 @@ class Block {
     this.x = newx;
     this.y = newy;
   }
-  draw(map){
+  draw(){
     context.fillStyle = "#000000";
     context.fillRect(this.x, this.y, this.width, this.height);
   }
@@ -365,7 +368,7 @@ class Platform extends Block {
     super(x,y,width,height);
     this.image = image;
   }
-  draw(map){
+  draw(){
     context.drawImage(this.image, (i%25)*50,(Math.floor(i/25))*50,50,50);
   }
 }
@@ -376,7 +379,7 @@ class Puzzle extends Block{
     super(x,y,width,height);
     this.image = image;
   }
-  draw(map){
+  draw(){
     context.drawImage(this.image, (i%25)*50,(Math.floor(i/25))*50,50,50);
   }
 }
@@ -387,8 +390,36 @@ class Obstacle extends Block{
     super(x,y,width,height);
     this.image = image;
   }
-  draw(map){
+  draw(){
     context.drawImage(this.image, (i%25)*50,(Math.floor(i/25))*50,50,50);
+  }
+}
+
+class Alert{
+  constructor(){
+    this.text = "";
+    this.x = 625;;
+    this.y = 25;
+    this.activated = false;
+  }
+  setActivated(key){
+    if (key === 0){
+      this.activated = false;
+    }
+    else{
+      this.activated = true;
+    }
+  }
+  setText(newText){
+    this.text = newText;
+  }
+  draw(){
+    context.fillStyle = "lightyellow";
+    context.strokeStyle = "lightyellow";
+    rect(150,3,950,32);
+    context.fillStyle = "black";
+    context.strokeStyle = "black";
+    context.fillText(this.text,this.x,this.y);
   }
 }
 
@@ -404,25 +435,25 @@ function renderMap(map){
   for (i = 0; i < map.length; i++){
     if (map[i] == 1){
       grassBlock.assign((i%25)*50,(Math.floor(i/25))*50);
-      grassBlock.draw(map);
+      grassBlock.draw();
     }
     else if (map[i] == 2){
       goldBlock.assign((i%25)*50,(Math.floor(i/25))*50);
-      goldBlock.draw(map);
+      goldBlock.draw();
     }
     else if (map[i] == 3){
       goldBlock.assign((i%25)*50,(Math.floor(i/25))*50);
-      goldBlock.draw(map);
+      goldBlock.draw();
       ladderBlock.assign((i%25)*50,(Math.floor(i/25))*50);
-      ladderBlock.draw(map);
+      ladderBlock.draw();
     }
     else if (map[i] == 4 && puzzleMap[level][stage] === 0){
       puzzleBlock.assign((i%25)*50,(Math.floor(i/25))*50);
-      puzzleBlock.draw(map);
+      puzzleBlock.draw();
     }
     else if (map[i] == 5){
       fireBlock.assign((i%25)*50,(Math.floor(i/25))*50);
-      fireBlock.draw(map);
+      fireBlock.draw();
     }
     else{
       context.fillStyle = "lightblue";
@@ -445,14 +476,29 @@ function restartMap(){
   ];
 }
 
+function newLevel(){
+  level += 1;
+  stage = 0;
+  player.setPieces(0);
+  player.setLives(3);
+}
 //text functions
 
 function renderText(){
-  context.fillStyle = "#000000";
+  context.fillStyle = "black";
   context.font = "16px Arial";
+  context.textAlign = "start";
+
   context.fillText(String(level+1) + "-" + String(stage+1),20,20);
   context.fillText("Lives: " + player.getLives(),1150,20);
   context.fillText("Pieces: " + player.getPieces(),1150,40);
+
+  context.textAlign = "center";
+
+  if (alertText.activated === true){
+    alertText.draw();
+  }
+
   for (i = 0; i < world1_text[level][stage].length; i ++){
     context.fillText(world1_text[level][stage][i][0],world1_text[level][stage][i][1],world1_text[level][stage][i][2]);
   }
@@ -489,6 +535,8 @@ var puzzleBlock = new Platform(0,0,50,50,puzzleBlockImage);
 var ladderBlock = new Platform(0,0,50,50,ladderBlockImage);
 var fireBlock = new Obstacle(0,0,50,50,fireBlockImage);
 
+var alertText = new Alert();
+
 // animation steps
 var update = function(){
   updateButton();
@@ -500,11 +548,12 @@ var update = function(){
 
 var render = function () {
   if (started === false){ //start game screen
+    context.textAlign = "center";
     context.fillStyle = "#FFFFFF";
     context.fillRect(0, 0, cwidth, cheight);
     context.fillStyle = "#000000";
     context.font = "30px Arial";
-    context.fillText("Welcome to team Scrum Half's game! Press the Start Game button!",100,300);
+    context.fillText("Welcome to team Scrum Half's game! Press the Start Game button!",625,285);
   }
   else{
     /*
