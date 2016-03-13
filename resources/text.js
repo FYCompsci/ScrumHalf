@@ -1,10 +1,12 @@
 var world1_text = [
   [//level 1
     [//stage 1
-      ["Ooh, a puzzle piece! Press the right arrow key to go get it!", 400, 100]
+      ["Welcome to Kirby\'s Puzzle collector! You're here to collect puzzle pieces!", 400, 75],
+      ["Oh look, a puzzle piece! Press the right arrow key to go get it!", 400, 100]
     ],
     [//stage 2
-      ["Oh no! A gap! Press the up arrow key to jump over it.", 400, 100]
+      ["Oh no! A gap! Press the up arrow key to jump over it.", 400, 75],
+      ["Then, pick up that second puzzle piece. Pretty exciting!", 400, 100]
     ],
     [//stage 3
       ["Some platforms? Wonder if you can jump over them?", 400, 100]
@@ -19,7 +21,8 @@ var world1_text = [
       ["Hardcore Parkour? Seems dangerous.", 400, 100]
     ],
     [//stage 7
-      ["Oh no, a fire? Is that Matt Wang's mixtape?", 400, 100]
+      ["Oh no, a fire? It's all good, you can jump over it!", 400, 100],
+      ["That fire is probably Matt Wang's mixtape.", 400, 100]
     ],
     [//stage 8
       ["This looks pretty tough. Don't worry, I believe in you!", 400, 100]
