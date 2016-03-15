@@ -557,14 +557,14 @@ var update = function(){
 var render = function () {
   if (started === false){ //start game screen
     context.textAlign = "center";
-    context.fillStyle = "#FFFFFF";
+    context.fillStyle = "pink";
     context.fillRect(0, 0, cwidth, cheight);
     context.fillStyle = "#000000";
     context.font = "30px Arial";
     context.fillText("Welcome to team Scrum Half's game! Press the Start Game button!",625,285);
   }
   else{
-    
+
     context.fillStyle = "lightblue";
     context.strokeStyle = "lightblue";
     rect(0,0,cwidth,cheight);
