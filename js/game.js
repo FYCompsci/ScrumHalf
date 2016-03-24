@@ -98,7 +98,9 @@ class Player {
   jump(){
     if (this.jumping === false){
       this.jumping = true;
-      this.move(0,-50);
+      for (i = 0; i<5; i++) {
+        this.move(0,-10);
+      }
     }
   }
 
