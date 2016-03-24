@@ -111,7 +111,7 @@ class Player {
     }
     else{
       this.lives -= 1;
-      alertText.setText("Oh no, you died by " + type + "!");
+      alertText.setText("Oh no, you died " + type + "!");
       alertText.setActivated(1);
       this.moveTo(5,7*50);
     }
@@ -205,10 +205,10 @@ class Player {
   update(map){
     if (this.climbing === false){// falling code
       if (this.y + this.height + 5 > cheight){
-        this.die("falling out of the world");
+        this.die("by falling out of the world");
       }
       else if (this.checkCollision(this.x,this.y,this.width,this.height,"down",map) === 5){
-        this.die("burning to death");
+        this.die("from my mixtapes");
       }
       else if (this.checkCollision(this.x,this.y,this.width,this.height,"down",map) === 4){
         puzzleMap[level][stage] = 1;
@@ -229,7 +229,7 @@ class Player {
       var value = Number(key);
       if (value == 38){ // up
         if (this.checkCollision(this.x,this.y,this.width,this.height,"up",map) === 5){
-          this.die("burning to death");
+          this.die("from my mixtapes");
         }
         else if (this.checkCollision(this.x,this.y,this.width,this.height,"up",map) === 4){
           puzzleMap[level][stage] = 1;
@@ -252,7 +252,7 @@ class Player {
       else if (value == 37) { // left
         if (this.x - 5 > 0){
           if (this.checkCollision(this.x,this.y,this.width,this.height,"left",map) === 5){
-            this.die("burning to death");
+            this.die("from my mixtapes");
           }
           else if (this.checkCollision(this.x,this.y,this.width,this.height,"left",map) === 4){
             puzzleMap[level][stage] = 1;
@@ -274,7 +274,7 @@ class Player {
       } else if (value == 39) { // right
         if (this.x + this.width + 5 < cwidth){
           if (this.checkCollision(this.x,this.y,this.width,this.height,"right",map) === 5){
-            this.die("burning to death");
+            this.die("from my mixtapes");
           }
           else if (this.checkCollision(this.x,this.y,this.width,this.height,"right",map) === 4){
             puzzleMap[level][stage] = 1;
@@ -296,7 +296,7 @@ class Player {
               newLevel();
             }
             else{
-              alertText.setText("You don't have all 9 puzzle pieces!");
+              alertText.setText("You don't have all 9 puzzle pieces! Go back to catch 'em all!'");
               alertText.setActivated(1);
             }
           }
