@@ -98,8 +98,8 @@ class Player {
   jump(){
     if (this.jumping === false){
       this.jumping = true;
-      for (i = 0; i<5; i++) {
-        this.move(0,-10);
+      for (i = 0; i<10; i++) {
+        this.move(0,-5);
       }
     }
   }
