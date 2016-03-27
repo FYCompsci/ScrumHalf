@@ -66,6 +66,7 @@ class Player {
     this.lives = lives;
     this.pieces = 0;
     this.jumping = false;
+    this.jump_dist = 0;
     this.climbing = false;
     this.falling = false;
     this.running = false;
@@ -98,9 +99,11 @@ class Player {
   jump(){
     if (this.jumping === false){
       this.jumping = true;
+      /*
       for (i = 0; i<10; i++) {
         this.move(0,-5);
       }
+      */
     }
   }
 
@@ -119,7 +122,7 @@ class Player {
 
   checkCollision(x,y,width,height,direction,map){
     if (direction == "up"){
-      if(map[(Math.floor(x/50))+(Math.floor((y-1)/50))*25] === 4){
+      if(map[(Math.floor(x/50))+(Math.floor((y-1)/50))*25] == 4){
         if (puzzleMap[level][stage] === 0){
           return 4;
         }
@@ -127,7 +130,7 @@ class Player {
           return 0;
         }
       }
-      else if(map[(Math.floor(x/50))+(Math.floor((y-1)/50))*25] === 5){
+      else if(map[(Math.floor(x/50))+(Math.floor((y-1)/50))*25] == 5){
         return 5;
       }
       else if(map[(Math.floor(x/50))+(Math.floor((y-1)/50))*25] === 0 && y -5 > 0){
@@ -157,7 +160,7 @@ class Player {
       }
     }
     else if (direction == "left"){
-      if (map[(Math.floor((x)/50))+(Math.floor(y/50))*25] === 4 || map[(Math.floor((x-1)/50))+(Math.floor((y+height-1)/50))*25] === 4) {
+      if (map[(Math.floor((x)/50))+(Math.floor(y/50))*25] == 4 || map[(Math.floor((x-1)/50))+(Math.floor((y+height-1)/50))*25] == 4) {
         if (puzzleMap[level][stage] === 0){
           return 4;
         }
@@ -165,10 +168,10 @@ class Player {
           return 0;
         }
       }
-      else if (map[(Math.floor((x)/50))+(Math.floor(y/50))*25] === 5 || map[(Math.floor((x-1)/50))+(Math.floor((y+height-1)/50))*25] === 5) {
+      else if (map[(Math.floor((x)/50))+(Math.floor(y/50))*25] == 5 || map[(Math.floor((x-1)/50))+(Math.floor((y+height-1)/50))*25] == 5) {
         return 5;
       }
-      else if (map[(Math.floor((x)/50))+(Math.floor(y/50))*25] === 3 || map[(Math.floor((x-1)/50))+(Math.floor((y+height-1)/50))*25] === 3) {
+      else if (map[(Math.floor((x)/50))+(Math.floor(y/50))*25] == 3 || map[(Math.floor((x-1)/50))+(Math.floor((y+height-1)/50))*25] == 3) {
         return 3;
       }
       else if (map[(Math.floor((x)/50))+(Math.floor(y/50))*25] === 0 && map[(Math.floor((x-1)/50))+(Math.floor((y+height-1)/50))*25] === 0) {
@@ -179,7 +182,7 @@ class Player {
       }
     }
     else if (direction == "right"){
-      if(map[(Math.floor((x+width)/50))+(Math.floor(y/50))*25] === 4 || map[(Math.floor((x+width)/50))+(Math.floor((y+height-1)/50))*25] === 4){
+      if(map[(Math.floor((x+width)/50))+(Math.floor(y/50))*25] == 4 || map[(Math.floor((x+width)/50))+(Math.floor((y+height-1)/50))*25] == 4){
         if (puzzleMap[level][stage] === 0){
           return 4;
         }
@@ -187,10 +190,10 @@ class Player {
           return 0;
         }
       }
-      else if(map[(Math.floor((x+width)/50))+(Math.floor(y/50))*25] === 5 || map[(Math.floor((x+width)/50))+(Math.floor((y+height-1)/50))*25] === 5){
+      else if(map[(Math.floor((x+width)/50))+(Math.floor(y/50))*25] == 5 || map[(Math.floor((x+width)/50))+(Math.floor((y+height-1)/50))*25] == 5){
         return 5;
       }
-      else if(map[(Math.floor((x+width)/50))+(Math.floor(y/50))*25] === 3 || map[(Math.floor((x+width)/50))+(Math.floor((y+height-1)/50))*25] === 3){
+      else if(map[(Math.floor((x+width)/50))+(Math.floor(y/50))*25] == 3 || map[(Math.floor((x+width)/50))+(Math.floor((y+height-1)/50))*25] == 3){
         return 3;
       }
       else if (map[(Math.floor((x+width)/50))+(Math.floor(y/50))*25] === 0 && map[(Math.floor((x+width)/50))+(Math.floor((y+height-1)/50))*25] === 0){
@@ -203,14 +206,20 @@ class Player {
   }
 
   update(map){
-    if (this.climbing === false){// falling code
+    if (this.jumping === true && this.jump_dist <= 75){
+        this.jump_dist += 5;
+        if (this.checkCollision(this.x,this.y,this.width,this.height,"up",map) === 0){
+          this.move(0,-5);
+        }
+    }
+    else if (this.climbing === false){// falling code
       if (this.y + this.height + 5 > cheight){
         this.die("falling out of the world");
       }
-      else if (this.checkCollision(this.x,this.y,this.width,this.height,"down",map) === 5){
+      else if (this.checkCollision(this.x,this.y,this.width,this.height,"down",map) == 5){
         this.die("burning to death");
       }
-      else if (this.checkCollision(this.x,this.y,this.width,this.height,"down",map) === 4){
+      else if (this.checkCollision(this.x,this.y,this.width,this.height,"down",map) == 4){
         puzzleMap[level][stage] = 1;
         this.pieces += 1;
       }
@@ -221,6 +230,7 @@ class Player {
       else{
         this.falling = false;
         this.jumping = false;
+        this.jump_dist = 0;
       }
     }
     this.climbing = false;
@@ -228,20 +238,20 @@ class Player {
     for (var key in keysDown) { // n-key rollover movement code
       var value = Number(key);
       if (value == 38){ // up
-        if (this.checkCollision(this.x,this.y,this.width,this.height,"up",map) === 5){
+        if (this.checkCollision(this.x,this.y,this.width,this.height,"up",map) == 5){
           this.die("burning to death");
         }
-        else if (this.checkCollision(this.x,this.y,this.width,this.height,"up",map) === 4){
+        else if (this.checkCollision(this.x,this.y,this.width,this.height,"up",map) == 4){
           puzzleMap[level][stage] = 1;
           this.pieces += 1;
         }
-        else if (this.checkCollision(this.x,this.y,this.width,this.height,"left",map) === 3){
+        else if (this.checkCollision(this.x,this.y,this.width,this.height,"left",map) == 3){
           if (this.checkCollision(this.x,this.y,this.width,this.height,"up",map) != 1){
             this.move(0,-5);
             this.climbing = true;
           }
         }
-        else if (this.checkCollision(this.x,this.y,this.width,this.height,"right",map) === 3 && this.checkCollision(this.x,this.y,this.width,this.height,"up",map) === 0){
+        else if (this.checkCollision(this.x,this.y,this.width,this.height,"right",map) == 3 && this.checkCollision(this.x,this.y,this.width,this.height,"up",map) === 0){
           this.move(0,-5);
           this.climbing = true;
         }
@@ -251,10 +261,10 @@ class Player {
       }
       else if (value == 37) { // left
         if (this.x - 5 > 0){
-          if (this.checkCollision(this.x,this.y,this.width,this.height,"left",map) === 5){
+          if (this.checkCollision(this.x,this.y,this.width,this.height,"left",map) == 5){
             this.die("burning to death");
           }
-          else if (this.checkCollision(this.x,this.y,this.width,this.height,"left",map) === 4){
+          else if (this.checkCollision(this.x,this.y,this.width,this.height,"left",map) == 4){
             puzzleMap[level][stage] = 1;
             this.pieces += 1;
           }
@@ -273,10 +283,10 @@ class Player {
         this.running = true;
       } else if (value == 39) { // right
         if (this.x + this.width + 5 < cwidth){
-          if (this.checkCollision(this.x,this.y,this.width,this.height,"right",map) === 5){
+          if (this.checkCollision(this.x,this.y,this.width,this.height,"right",map) == 5){
             this.die("burning to death");
           }
-          else if (this.checkCollision(this.x,this.y,this.width,this.height,"right",map) === 4){
+          else if (this.checkCollision(this.x,this.y,this.width,this.height,"right",map) == 4){
             puzzleMap[level][stage] = 1;
             this.pieces += 1;
           }
