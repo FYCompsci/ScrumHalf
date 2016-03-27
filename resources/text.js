@@ -33,7 +33,8 @@ var world1_text = [
   ],
   [//level 2
     [//stage 1
-      ["Ooh, a puzzle piece! Press the right arrow key to go get it!", 625, 100]
+      ["Welcome to Brick World!", 625, 75],
+      ["Oh no, there's fire all over the place! Wonder why?", 625, 100]
     ],
     [//stage 2
       ["Oh no! A gap! Press the up arrow key to jump over it.", 625, 100]
