@@ -18,11 +18,10 @@
   </body>
   <script src="js/jquery.js"></script>
   <script src="js/bootstrap.js"></script>
-	<!--
 	<script src="resources/maps.js"></script>
 	<script src="resources/text.js"></script>
 	<script src="js/game.js"></script>
-	-->
+	<!--
 	<script>
 	function check() {
 		"use strict";
@@ -33,17 +32,12 @@
 	}
 
 	if (check()) {
-		/*
-		var script = document.createElement('script');
-		script.type = 'text/javascript';
-		script.src = "js/game.js";
-		$("#game-container").append(script);
-		*/
 		$('<script src="resources/maps.js"><\/script>').appendTo(document.body);
 		$('<script src="resources/text.js"><\/script>').appendTo(document.body);
 		$('<script src="js/game.js"><\/script>').appendTo(document.body);
+		*/
 	} else {
 		$("#game-container").html("Unfortunately, your browser doesn't support ECMAScript 6. You should probably do that.");
 	}
-	</script>
+</script>-->
 </html>
