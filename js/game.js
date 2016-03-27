@@ -207,9 +207,9 @@ class Player {
 
   update(map){
     if (this.jumping === true && this.jump_dist <= 75){
-        this.jump_dist += 10;
+        this.jump_dist += 5;
         if (this.checkCollision(this.x,this.y,this.width,this.height,"up",map) === 0){
-          this.move(0,-10);
+          this.move(0,-5);
         }
     }
     else if (this.climbing === false){// falling code
