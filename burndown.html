@@ -4,20 +4,22 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>ScrumHalf Burndown Chart</title>
+    <title>Burndown Chart | ScrumHalf</title>
     <link rel="stylesheet" href="css/bootstrap.css" />
 		<link rel="stylesheet" href="css/style.css" />
 		<link rel="icon" href="css/favicon.ico" />
   </head>
-  <body>
+  <body style="text-align:center;">
+		<h1>Burndown Chart for Team ScrumHalf</h1>
     <div id="burndown-chart"></div>
+		<p>This graph demonstrates the completion of items in the Sprint Item Backlog over time, including Project Setup, and the first three Scrums.</p>
   </body>
 
   <script src="js/jquery.js"></script>
   <script src="js/bootstrap.js"></script>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <script>
-    var xValue = ["Creation of Project", "Feb. 29th", "Mar. 2nd", "Mar. 8th", "Mar. 10th", "Mar. 30th"];
+    var xValue = ["Creation of Project", "Setup: Feb. 29th", "Setup: Mar. 2nd", "Setup: Mar. 8th", "Scrum 1: Mar. 10th", "Scrum 2: Mar. 30th"];
 
     var yValue = [20,17.5,12.5,10,7,4];
 
@@ -36,7 +38,7 @@
         title: 'Date'
       },
       yaxis: {
-        title: 'Tasks To-Do',
+        title: 'Tasks Left',
         showticklabels: 'false'
       },
       paper_bgcolor: 'rgba(0,0,0,0)',
