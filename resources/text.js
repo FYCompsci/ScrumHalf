@@ -37,13 +37,15 @@ var world1_text = [
       ["Oh no, there's fire all over the place! Wonder why?", 625, 100]
     ],
     [//stage 2
-      ["Oh no! A gap! Press the up arrow key to jump over it.", 625, 100]
+      ["Oh gosh, that guy doesn't look happy. Try to avoid him.", 625, 75],
+      ["That's so strange, who's controlling these weird creatures?", 625, 100]
     ],
     [//stage 3
-      ["Some platforms? Wonder if you can jump over them?", 625, 100]
+      ["They go up, down, left and right? Unfair!", 625, 75],
+      ["Why do these enemies look so similar to you?", 625, 100]
     ],
     [//stage 4
-      ["Oh cool, a ladder! Just don't walk under it!", 625, 100]
+      ["That doesn't seem fun. Dropping the bass is so much better!", 625, 100]
     ],
     [//stage 5
       ["Oh wow, that platform might need some repairs. Jump in the meantime.", 625, 100]
