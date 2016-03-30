@@ -98,7 +98,7 @@ class Player {
   }
 
   jump(){
-    if (this.jumping === false){
+    if (this.jumping === false && this.falling === false){
       this.jumping = true;
       /*
       for (i = 0; i<10; i++) {
