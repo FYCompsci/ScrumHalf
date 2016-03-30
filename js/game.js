@@ -40,7 +40,7 @@ var ladderBlockImage = new Image();
 ladderBlockImage.src = "resources/ladderBlock.png";
 
 var fireBlockImage = new Image();
-fireBlockImage.src = "resources/player.gif";
+fireBlockImage.src = "resources/fireBlock.png";
 
 var skyBackgroundImage = new Image();
 skyBackgroundImage.src = "resources/skyBackground.jpg";
