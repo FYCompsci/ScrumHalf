@@ -47,6 +47,10 @@ skyBackgroundImage.src = "resources/skyBackground.jpg";
 
 var playerImage = new Image();
 
+// audio imports
+var backgroundMusic = document.createElement('audio');
+backgroundMusic.setAttribute('src', 'resources/audio/background_green.mp3');
+
 //make rectangle function
 function rect(x,y,w,h) {
   context.beginPath();
@@ -659,8 +663,11 @@ function renderText(){
 // game functions
 function beginGame(){
   started = true;
+  backgroundMusic.play();
 }
 function restartGame(){
+  backgroundMusic.pause();
+  backgroundMusic.currentTime = 0;
   restartMap();
   started = false;
 }
@@ -728,6 +735,11 @@ var step = function () {
 
 animate(step);
 
+// audio event listeners
+backgroundMusic.addEventListener('ended', function() {
+  this.currentTime = 0;
+  this.play();
+}, false);
 
 // key listeners
 
