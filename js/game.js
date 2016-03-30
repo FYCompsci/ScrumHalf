@@ -74,6 +74,7 @@ class Player {
     this.anim_frame = 0;
     this.image = image;
   }
+
   getLives(){
     return this.lives;
   }
@@ -358,6 +359,15 @@ class Player {
       context.drawImage(this.image, this.x,this.y);
       this.anim_frame = 0;
     }
+  }
+}
+
+class Enemy {
+  constructor (x,y,width,height){
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
   }
 }
 
