@@ -362,6 +362,7 @@ class Player {
   }
 }
 
+// enemy default class
 class Enemy {
   constructor (x,y,width,height,image){
     this.x = x;
@@ -370,47 +371,90 @@ class Enemy {
     this.height = height;
     this.speed = -5; //if hit a wall multiply by -1
   }
-
-checkCollision(x,y,width,height,direction,map){
-  if (direction == "up"){
-    if(map[(Math.floor(x/50))+(Math.floor((y-1)/50))*25] == 4){
-      if (puzzleMap[level][stage] === 0){
-        return 4;
+  checkCollision(x,y,width,height,direction,map){
+    if (direction == "up"){
+      if(map[(Math.floor(x/50))+(Math.floor((y-1)/50))*25] == 4){
+        if (puzzleMap[level][stage] === 0){
+          return 4;
+        }
+        else{
+          return 0;
+        }
       }
-      else{
+      else if(map[(Math.floor(x/50))+(Math.floor((y-1)/50))*25] == 5){
+        return 5;
+      }
+      else if(map[(Math.floor(x/50))+(Math.floor((y-1)/50))*25] === 0 && y -5 > 0){
         return 0;
       }
-    }
-    else if(map[(Math.floor(x/50))+(Math.floor((y-1)/50))*25] == 5){
-      return 5;
-    }
-    else if(map[(Math.floor(x/50))+(Math.floor((y-1)/50))*25] === 0 && y -5 > 0){
-      return 0;
-    }
-    else{
-      return 1;
-    }
-  }
-  else if (direction == "down"){
-    if(map[(Math.floor(x/50))+(Math.floor((y+height)/50))*25] == 4 || map[(Math.floor((x+width-5)/50))+(Math.floor((y+height)/50))*25] == 4){
-      if (puzzleMap[level][stage] === 0){
-        return 4;
-      }
       else{
+        return 1;
+      }
+    }
+    else if (direction == "down"){
+      if(map[(Math.floor(x/50))+(Math.floor((y+height)/50))*25] == 4 || map[(Math.floor((x+width-5)/50))+(Math.floor((y+height)/50))*25] == 4){
+        if (puzzleMap[level][stage] === 0){
+          return 4;
+        }
+        else{
+          return 0;
+        }
+      }
+      else if(map[(Math.floor(x/50))+(Math.floor((y+height)/50))*25] == 5 || map[(Math.floor((x+width-5)/50))+(Math.floor((y+height)/50))*25] == 5){
+        return 5;
+      }
+      else if (map[(Math.floor(x/50))+(Math.floor((y+height)/50))*25] === 0 && map[(Math.floor((x+width-5)/50))+(Math.floor((y+height)/50))*25] === 0){
         return 0;
       }
+      else{
+        return 1;
+      }
     }
-    else if(map[(Math.floor(x/50))+(Math.floor((y+height)/50))*25] == 5 || map[(Math.floor((x+width-5)/50))+(Math.floor((y+height)/50))*25] == 5){
-      return 5;
+    else if (direction == "left"){
+      if (map[(Math.floor((x)/50))+(Math.floor(y/50))*25] == 4 || map[(Math.floor((x-1)/50))+(Math.floor((y+height-1)/50))*25] == 4) {
+        if (puzzleMap[level][stage] === 0){
+          return 4;
+        }
+        else{
+          return 0;
+        }
+      }
+      else if (map[(Math.floor((x)/50))+(Math.floor(y/50))*25] == 5 || map[(Math.floor((x-1)/50))+(Math.floor((y+height-1)/50))*25] == 5) {
+        return 5;
+      }
+      else if (map[(Math.floor((x)/50))+(Math.floor(y/50))*25] == 3 || map[(Math.floor((x-1)/50))+(Math.floor((y+height-1)/50))*25] == 3) {
+        return 3;
+      }
+      else if (map[(Math.floor((x)/50))+(Math.floor(y/50))*25] === 0 && map[(Math.floor((x-1)/50))+(Math.floor((y+height-1)/50))*25] === 0) {
+        return 0;
+      }
+      else{
+        return 1;
+      }
     }
-    else if (map[(Math.floor(x/50))+(Math.floor((y+height)/50))*25] === 0 && map[(Math.floor((x+width-5)/50))+(Math.floor((y+height)/50))*25] === 0){
-      return 0;
-    }
-    else{
-      return 1;
+    else if (direction == "right"){
+      if(map[(Math.floor((x+width)/50))+(Math.floor(y/50))*25] == 4 || map[(Math.floor((x+width)/50))+(Math.floor((y+height-1)/50))*25] == 4){
+        if (puzzleMap[level][stage] === 0){
+          return 4;
+        }
+        else{
+          return 0;
+        }
+      }
+      else if(map[(Math.floor((x+width)/50))+(Math.floor(y/50))*25] == 5 || map[(Math.floor((x+width)/50))+(Math.floor((y+height-1)/50))*25] == 5){
+        return 5;
+      }
+      else if(map[(Math.floor((x+width)/50))+(Math.floor(y/50))*25] == 3 || map[(Math.floor((x+width)/50))+(Math.floor((y+height-1)/50))*25] == 3){
+        return 3;
+      }
+      else if (map[(Math.floor((x+width)/50))+(Math.floor(y/50))*25] === 0 && map[(Math.floor((x+width)/50))+(Math.floor((y+height-1)/50))*25] === 0){
+        return 0;
+      }
+      else{
+        return 1;
+      }
     }
   }
-}
 }
 
 class VerticalEnemy extends Enemy {
@@ -424,6 +468,24 @@ class VerticalEnemy extends Enemy {
   update(map) {
     if (this.y + this.speed < cheight) {
       this.y += this.speed;
+      if (this.checkCollision(this.x,this.y,this.width,this.height,map) != 0){
+        this.speed * -1;
+      }
+    }
+  }
+}
+
+class HorizontalEnemy extends Enemy {
+  constructor (x,y,width,height,image){
+    super(x,y,width,height);
+    this.image = image;
+  }
+  checkCollision(x,y,width,height,direction,map){
+    super.checkCollision(x,y,width,height,direction,map);
+  }
+  update(map) {
+    if (this.x + this.speed < cwidth) {
+      this.x += this.speed;
       if (this.checkCollision(this.x,this.y,this.width,this.height,map) != 0){
         this.speed * -1;
       }
