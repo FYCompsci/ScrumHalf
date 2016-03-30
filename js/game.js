@@ -78,19 +78,21 @@ class Player {
     this.anim_frame = 0;
     this.image = image;
   }
-
+  //getter and setter for lives
   getLives(){
     return this.lives;
   }
   setLives(n){
     this.lives = n;
   }
+  //getter and setter for # of pieces collected, in current level
   getPieces(){
     return this.pieces;
   }
   setPieces(n){
     this.pieces = n;
   }
+  //move and moveto functions; move increments by deltax, while moveTo hard-sets a position
   move(deltax, deltay){
     this.x += deltax;
     this.y += deltay;
@@ -100,19 +102,13 @@ class Player {
     this.x = x;
     this.y = y;
   }
-
+  //partial jump function, other part is in update()
   jump(){
     if (this.jumping === false && this.falling === false){
       this.jumping = true;
-      /*
-      for (i = 0; i<10; i++) {
-        this.move(0,-5);
-      }
-      */
     }
   }
-
-
+  //function executed when dead
   die(type){
     if (this.lives - 1 < 1){
       restartGame();
@@ -124,7 +120,7 @@ class Player {
       this.moveTo(5,7*50);
     }
   }
-
+  //check collision function, checks for up, down, left, and right
   checkCollision(x,y,width,height,direction,map){
     if (direction == "up"){
       if(map[(Math.floor(x/50))+(Math.floor((y-1)/50))*25] == 4){
@@ -209,8 +205,9 @@ class Player {
       }
     }
   }
-
+  // main update function, checks for errors and positions character appropriately
   update(map){
+    //this tidbit handles jumping
     if (this.jumping === true && this.jump_dist <= 75){
         this.jump_dist += 5;
         if (this.checkCollision(this.x,this.y,this.width,this.height,"up",map) === 0){
@@ -238,25 +235,26 @@ class Player {
         this.jump_dist = 0;
       }
     }
+    // this happens to set default states, instead of checking for key released
     this.climbing = false;
     this.running = false;
     for (var key in keysDown) { // n-key rollover movement code
       var value = Number(key);
       if (value == 38){ // up
-        if (this.checkCollision(this.x,this.y,this.width,this.height,"up",map) == 5){
+        if (this.checkCollision(this.x,this.y,this.width,this.height,"up",map) == 5){ // check for fire
           this.die("burning to death");
         }
-        else if (this.checkCollision(this.x,this.y,this.width,this.height,"up",map) == 4){
+        else if (this.checkCollision(this.x,this.y,this.width,this.height,"up",map) == 4){ // check for puzzle
           puzzleMap[level][stage] = 1;
           this.pieces += 1;
         }
-        else if (this.checkCollision(this.x,this.y,this.width,this.height,"left",map) == 3){
+        else if (this.checkCollision(this.x,this.y,this.width,this.height,"left",map) == 3){ // check for ladder on left side
           if (this.checkCollision(this.x,this.y,this.width,this.height,"up",map) != 1){
             this.move(0,-5);
             this.climbing = true;
           }
         }
-        else if (this.checkCollision(this.x,this.y,this.width,this.height,"right",map) == 3 && this.checkCollision(this.x,this.y,this.width,this.height,"up",map) === 0){
+        else if (this.checkCollision(this.x,this.y,this.width,this.height,"right",map) == 3 && this.checkCollision(this.x,this.y,this.width,this.height,"up",map) === 0){ // check for ladder on right side
           this.move(0,-5);
           this.climbing = true;
         }
@@ -278,7 +276,7 @@ class Player {
           }
         }
         else{
-          if (stage > 0){
+          if (stage > 0){ // sidescrolling stages
             stage -= 1;
             alertText.setActivated(0);
             this.moveTo(cwidth-this.width-5,this.y);
@@ -321,11 +319,8 @@ class Player {
       }
     }
   }
+  // player drawing animation, includes dealing with spritesheets
   draw(){
-    /*
-    context.fillStyle = "#000000";
-    context.fillRect(this.x, this.y, this.width, this.height);
-    */
     var srcString = "resources/player/kirby";
     var needs_sprite = false;
     if (this.jumping === true || this.climbing === true){
@@ -473,7 +468,7 @@ class VerticalEnemy extends Enemy {
     if (this.y + this.speed < cheight) {
       this.y += this.speed;
       if (this.checkCollision(this.x,this.y,this.width,this.height,map) != 0){
-        this.speed * -1;
+        this.speed = this.speed * -1;
       }
     }
   }
@@ -491,7 +486,7 @@ class HorizontalEnemy extends Enemy {
     if (this.x + this.speed < cwidth) {
       this.x += this.speed;
       if (this.checkCollision(this.x,this.y,this.width,this.height,map) != 0){
-        this.speed * -1;
+        this.speed = this.speed * -1;
       }
     }
   }
@@ -505,10 +500,12 @@ class Block {
     this.width = width;
     this.height = height;
   }
+  // assign block location
   assign(newx,newy){
     this.x = newx;
     this.y = newy;
   }
+  // draw block
   draw(){
     context.fillStyle = "#000000";
     context.fillRect(this.x, this.y, this.width, this.height);
@@ -548,6 +545,7 @@ class Obstacle extends Block{
   }
 }
 
+// creating on-screen alerts
 class Alert{
   constructor(){
     this.text = "";
