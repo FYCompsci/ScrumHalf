@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>ScrumHalf Burndown Chart</title>
+    <link rel="stylesheet" href="css/bootstrap.css" />
+		<link rel="stylesheet" href="css/style.css" />
+		<link rel="icon" href="css/favicon.ico" />
+  </head>
+  <body>
+    <div id="burndown-chart"></div>
+  </body>
+
+  <script src="js/jquery.js"></script>
+  <script src="js/bootstrap.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script>
+    var xValue = ["Creation of Project", "Feb. 29th", "Mar. 2nd", "Mar. 8th", "Mar. 10th", "Mar. 30th"];
+
+    var yValue = [20,17.5,12.5,10,7,4];
+
+    var trace1 = {
+      x: xValue,
+      y: yValue,
+      type: 'scatter'
+    };
+
+    var data = [trace1];
+
+    var annotationContent = [];
+
+    var layout = {
+      xaxis: {
+        title: 'Date'
+      },
+      yaxis: {
+        title: 'Tasks To-Do',
+        showticklabels: 'false'
+      },
+      paper_bgcolor: 'rgba(0,0,0,0)',
+      plot_bgcolor: 'rgba(0,0,0,0)',
+      annotations: annotationContent
+    };
+
+    for( var i = 0 ; i < xValue.length ; i++ ){
+      var result = {
+        x: xValue[i],
+        y: yValue[i],
+        text: yValue[i],
+        xanchor: 'center',
+        yanchor: 'bottom',
+        showarrow: false
+      };
+      annotationContent.push(result);
+    }
+
+
+    Plotly.plot(document.getElementById('burndown-chart'), data, layout);
+  </script>
+</html>
