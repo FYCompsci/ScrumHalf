@@ -120,7 +120,7 @@ class Player {
       this.lives -= 1;
       alertText.setText("Oh no, you died by " + type + "!");
       alertText.setActivated(1);
-      this.moveTo(5,7*50);
+      this.moveTo(5,0);
     }
   }
   //check collision function, checks for up, down, left, and right
