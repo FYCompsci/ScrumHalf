@@ -33,17 +33,11 @@ goldBlockImage.src = "resources/goldBlock.png";
 var grassBlockImage = new Image();
 grassBlockImage.src = "resources/grassBlock.png";
 
-var puzzleBlockImage = new Image();
-puzzleBlockImage.src = "resources/skyBlock.png";
-
 var ladderBlockImage = new Image();
 ladderBlockImage.src = "resources/ladderBlock.png";
 
 var fireBlockImage = new Image();
 fireBlockImage.src = "resources/fireBlock.png";
-
-var skyBackgroundImage = new Image();
-skyBackgroundImage.src = "resources/skyBackground.jpg";
 
 var puzzleImage = new Image();
 puzzleImage.src = "resources/puzzlePieces/puzzle" + (level+1) + ".png";
