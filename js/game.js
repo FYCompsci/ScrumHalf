@@ -404,6 +404,10 @@ class Enemy {
       }
     }
   }
+  draw() {
+    context.fillStyle = "#000000";
+    context.fillRect(this.x, this.y, this.width, this.height);
+  }
 }
 
 class VerticalEnemy extends Enemy {
@@ -422,6 +426,9 @@ class VerticalEnemy extends Enemy {
       }
     }
   }
+  draw() {
+    context.drawImage(this.image, (i%25)*50,(Math.floor(i/25))*50,50,50);
+  }
 }
 
 class HorizontalEnemy extends Enemy {
@@ -439,6 +446,9 @@ class HorizontalEnemy extends Enemy {
         this.speed = this.speed * -1;
       }
     }
+  }
+  draw(){
+    context.drawImage(this.image, (i%25)*50,(Math.floor(i/25))*50,50,50);
   }
 }
 
