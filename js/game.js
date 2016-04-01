@@ -53,6 +53,12 @@ var playerImage = new Image();
 // audio imports
 var backgroundMusic = document.createElement('audio');
 backgroundMusic.setAttribute('src', 'resources/audio/background_green.mp3');
+backgroundMusic.loop = true;
+
+var titleMusic = document.createElement('audio');
+titleMusic.setAttribute('src', 'resources/audio/loading_screen.mp3');
+titleMusic.loop = true;
+titleMusic.play();
 
 //make rectangle function
 function rect(x,y,w,h) {
@@ -635,6 +641,7 @@ function renderPuzzle(puzzleMap,puzzleImage){
 // game functions
 function beginGame(){
   started = true;
+  titleMusic.pause();
   backgroundMusic.play();
 }
 function restartGame(){
@@ -642,6 +649,7 @@ function restartGame(){
   backgroundMusic.currentTime = 0;
   restartMap();
   started = false;
+  titleMusic.play();
 }
 
 // update button funciton
