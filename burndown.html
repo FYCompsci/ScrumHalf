@@ -21,15 +21,24 @@
   <script>
     var xValue = ["Creation of Project", "Setup: Feb. 29th", "Setup: Mar. 2nd", "Setup: Mar. 8th", "Scrum 1: Mar. 10th", "Scrum 2: Mar. 30th", "Scrum 3: Mar.30th"];
 
-    var yValue = [20,17.5,12.5,10,7,4,3];
+    var yValue1 = [20,17.5,12.5,10,7,4,3];
+		var yValue2 = [20,19,18,15,10,7,4];
 
     var trace1 = {
       x: xValue,
-      y: yValue,
-      type: 'scatter'
+      y: yValue1,
+      type: 'scatter',
+			name: 'actual'
     };
 
-    var data = [trace1];
+		var trace2 = {
+      x: xValue,
+      y: yValue2,
+      type: 'scatter',
+			name: 'predicted'
+    };
+
+    var data = [trace1,trace2];
 
     var annotationContent = [];
 
@@ -42,22 +51,8 @@
         showticklabels: 'false'
       },
       paper_bgcolor: 'rgba(0,0,0,0)',
-      plot_bgcolor: 'rgba(0,0,0,0)',
-      annotations: annotationContent
+      plot_bgcolor: 'rgba(0,0,0,0)'
     };
-
-    for( var i = 0 ; i < xValue.length ; i++ ){
-      var result = {
-        x: xValue[i],
-        y: yValue[i],
-        text: yValue[i],
-        xanchor: 'center',
-        yanchor: 'bottom',
-        showarrow: false
-      };
-      annotationContent.push(result);
-    }
-
 
     Plotly.plot(document.getElementById('burndown-chart'), data, layout);
   </script>
