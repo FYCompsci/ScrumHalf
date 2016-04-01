@@ -45,6 +45,9 @@ fireBlockImage.src = "resources/fireBlock.png";
 var skyBackgroundImage = new Image();
 skyBackgroundImage.src = "resources/skyBackground.jpg";
 
+var puzzleImage = new Image();
+puzzleImage.src = "resources/puzzlePieces/puzzle" + (level+1) + ".png";
+
 var playerImage = new Image();
 
 // audio imports
@@ -485,12 +488,12 @@ class Platform extends Block {
 
 //puzzle child class
 class Puzzle extends Block{
-  constructor (x,y,width,height,image){
+  constructor (x,y,width,height){
     super(x,y,width,height);
-    this.image = image;
   }
   draw(){
-    context.drawImage(this.image, (i%25)*50,(Math.floor(i/25))*50,50,50);
+    context.drawImage(puzzleImage,stage%3*50,Math.floor(stage/3)*50,50,50,(i%25)*50,(Math.floor(i/25))*50,50,50);
+    //context.drawImage(this.image, (i%25)*50,(Math.floor(i/25))*50,50,50);
   }
 }
 
@@ -595,6 +598,7 @@ function newLevel(){
   stage = 0;
   player.setPieces(0);
   player.setLives(3);
+  puzzleImage.src = "resources/puzzlePieces/puzzle" + (level+1) + ".png";
 }
 //text functions
 
@@ -615,6 +619,16 @@ function renderText(){
 
   if (alertText.activated === true){
     alertText.draw();
+  }
+}
+
+//other UI functions
+
+function renderPuzzle(puzzleMap,puzzleImage){
+  for (i=0;i<9;i++){
+    if (puzzleMap[level][i] == 1){
+      context.drawImage(puzzleImage,i%3*50,Math.floor(i/3)*50,50,50,1150+i%3*25,75+Math.floor(i/3)*25,25,25);
+    }
   }
 }
 
@@ -648,7 +662,7 @@ var player = new Player(0,0,25,25,3,playerImage);
 //other class declarations
 var goldBlock = new Platform(0,0,50,50,goldBlockImage);
 var grassBlock = new Platform(0,0,50,50,grassBlockImage);
-var puzzleBlock = new Platform(0,0,50,50,puzzleBlockImage);
+var puzzleBlock = new Puzzle(0,0,50,50);
 var ladderBlock = new Platform(0,0,50,50,ladderBlockImage);
 var fireBlock = new Obstacle(0,0,50,50,fireBlockImage);
 
@@ -682,6 +696,7 @@ var render = function () {
     renderMap(levelMap);
     player.draw();
     renderText();
+    renderPuzzle(puzzleMap,puzzleImage);
   }
 };
 
