@@ -11,17 +11,17 @@
   </head>
   <body style="text-align:center;">
 		<h1>Burndown Chart for Team ScrumHalf</h1>
-    <div id="burndown-chart"></div>
 		<p>This graph demonstrates the completion of items in the Sprint Item Backlog over time, including Project Setup, and the first three Scrums.</p>
+    <div id="burndown-chart"></div>
   </body>
 
   <script src="js/jquery.js"></script>
   <script src="js/bootstrap.js"></script>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <script>
-    var xValue = ["Creation of Project", "Setup: Feb. 29th", "Setup: Mar. 2nd", "Setup: Mar. 8th", "Scrum 1: Mar. 10th", "Scrum 2: Mar. 30th"];
+    var xValue = ["Creation of Project", "Setup: Feb. 29th", "Setup: Mar. 2nd", "Setup: Mar. 8th", "Scrum 1: Mar. 10th", "Scrum 2: Mar. 30th", "Scrum 3: Mar.30th"];
 
-    var yValue = [20,17.5,12.5,10,7,4];
+    var yValue = [20,17.5,12.5,10,7,4,3];
 
     var trace1 = {
       x: xValue,
