@@ -42,6 +42,8 @@ fireBlockImage.src = "resources/fireBlock.png";
 var puzzleImage = new Image();
 puzzleImage.src = "resources/puzzlePieces/puzzle" + (level+1) + ".png";
 
+var lifeHeartImage = new Image();
+lifeHeartImage.src = "resources/life.png";
 var playerImage = new Image();
 
 // audio imports
@@ -608,8 +610,7 @@ function renderText(){
   context.textAlign = "start";
 
   context.fillText(String(level+1) + "-" + String(stage+1),20,20);
-  context.fillText("Lives: " + player.getLives(),1150,20);
-  context.fillText("Pieces: " + player.getPieces(),1150,40);
+  context.fillText("Pieces: " + player.getPieces(),1150,70);
 
   context.textAlign = "center";
 
@@ -623,6 +624,14 @@ function renderText(){
 }
 
 //other UI functions
+
+function renderLives(){
+  for (i = 0; i <3; i ++){
+    if (player.getLives() > i){
+      context.drawImage(lifeHeartImage, 1150+i*30,20);
+    }
+  }
+}
 
 function renderPuzzle(puzzleMap,puzzleImage){
   for (i=0;i<9;i++){
@@ -642,6 +651,7 @@ function restartGame(){
   backgroundMusic.pause();
   backgroundMusic.currentTime = 0;
   restartMap();
+  puzzleImage.src = "resources/puzzlePieces/puzzle" + (level+1) + ".png";
   started = false;
   titleMusic.play();
 }
@@ -698,6 +708,7 @@ var render = function () {
     renderMap(levelMap);
     player.draw();
     renderText();
+    renderLives();
     renderPuzzle(puzzleMap,puzzleImage);
   }
 };
