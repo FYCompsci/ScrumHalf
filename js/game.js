@@ -17,7 +17,20 @@ var started = false;
 
 var level = 0;
 var stage = 0;
-
+/*
+var enemyMap = [
+  // [ENEMY 1, LEVEL, STAGE, XCOORD, YCOORD, VERTICAL OR HORIZONTAL],
+  [new HorizontalEnemy(6*50, 9*50,32,32,image), 1, 2],
+  [new HorizontalEnemy(9*50, 9*50,32,32,image), 1, 3],
+  [new VerticalEnemy(14*50, 6*50,32,32,image), 1, 3],
+  [new HorizontalEnemy(15*50, 6*50,32,32,image), 1, 3],
+  [new HorizontalEnemy(9*50, 4*50,32,32,image), 1, 4],
+  [new HorizontalEnemy(9*50, 5*50,32,32,image), 1, 4],
+  [new HorizontalEnemy(9*50, 6*50),32,32,image), 1, 4],
+  [new HorizontalEnemy(9*50, 7*50,32,32,image), 1, 4],
+  [new HorizontalEnemy(9*50, 8*50,32,32,image), 1, 4]
+]
+*/
 var levelMap = [];
 var puzzleMap = [
   [0,0,0,0,0,0,0,0,0],
@@ -538,7 +551,16 @@ class Alert{
     context.fillText(this.text,this.x,this.y);
   }
 }
-
+/*
+//enemy function
+function renderEnemy(enemyMap,lvl,stg){
+  for (int i = 0; i < enemyMap.length; j++) { // EVERY ELEMENT IN THAT ARRAY
+    if (i ) {// IF THE CURRENT STAGE AND LEVEL ARE EQUAL TO THE ARRAY ELEMENTS LEVEL OR STAGE
+      array[i][0].draw()
+    }
+  }
+}
+*/
 //map functions
 
 function updateMap(world,stg,lvl){
@@ -580,6 +602,8 @@ function renderMap(map){
     */
   }
 }
+
+
 
 function restartMap(){
   level = 0;
