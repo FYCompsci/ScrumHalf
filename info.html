@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Info | ScrumHalf</title>
+    <link rel="stylesheet" href="css/bootstrap.css" />
+		<link rel="icon" href="css/favicon.ico" />
+  </head>
+  <body>
+		<div class="container">
+			<h1 class="page-header">Documenting Agile Scrum</h1>
+			<div class="jumbotron">
+				<div class="row" id="backlog">
+				</div>
+				<div class="row">
+					<div class="col-md-6" id="todo">
+					</div>
+					<div class="col-md-6" id="meeting">
+					</div>
+				</div>
+				<p>You can find our burndown chart <a href="burndown.html">here</a>.</p>
+			</div>
+		</div>
+  </body>
+  <script src="js/jquery.js"></script>
+  <script src="js/bootstrap.js"></script>
+	<script src="js/marked.js"></script>
+	<script>
+		function httpGet(theUrl){
+		  var xmlHttp = new XMLHttpRequest();
+		  xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+		  xmlHttp.send( null );
+		  return xmlHttp.responseText;
+		}
+		var backlog = httpGet("BACKLOG.md");
+		$("#backlog").html(marked(backlog));
+	</script>
+</html>
