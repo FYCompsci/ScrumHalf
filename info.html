@@ -35,6 +35,11 @@
 		  return xmlHttp.responseText;
 		}
 		var backlog = httpGet("BACKLOG.md");
+		var todo = httpGet("TODO.md");
+		var meeting = httpGet("MEETINGS.md");
+
 		$("#backlog").html(marked(backlog));
+		$("#todo").html(marked(todo));
+		$("#meeting").html(marked(meeting));
 	</script>
 </html>
