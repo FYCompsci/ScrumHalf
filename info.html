@@ -7,17 +7,25 @@
     <title>Info | ScrumHalf</title>
     <link rel="stylesheet" href="css/bootstrap.css" />
 		<link rel="icon" href="css/favicon.ico" />
+		<style>
+			.scrum{
+				height:256px;
+				overflow-y: scroll;
+			}
+		</style>
   </head>
   <body>
 		<div class="container">
 			<h1 class="page-header">Documenting Agile Scrum</h1>
 			<div class="jumbotron">
-				<div class="row" id="backlog">
+				<h1>Here's our Sprint Backlog!</h1>
+				<div class="row scrum" id="backlog">
 				</div>
+				<h1>Here's our To-Do list and Meeting Notes!</h1>
 				<div class="row">
-					<div class="col-md-6" id="todo">
+					<div class="col-md-6 scrum" id="todo">
 					</div>
-					<div class="col-md-6" id="meeting">
+					<div class="col-md-6 scrum" id="meeting">
 					</div>
 				</div>
 				<p>You can find our burndown chart <a href="burndown.html">here</a>.</p>
