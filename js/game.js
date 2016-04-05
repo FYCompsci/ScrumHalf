@@ -371,7 +371,7 @@ class Player {
       this.anim_frame += 1;
     }
     else{
-      srcString += ".png"
+      srcString += ".png";
       this.image.src = srcString;
       context.drawImage(this.image, this.x,this.y);
       this.anim_frame = 0;
@@ -527,7 +527,7 @@ class Obstacle extends Block{
 class Alert{
   constructor(){
     this.text = "";
-    this.x = 625;;
+    this.x = 625;
     this.y = 25;
     this.activated = false;
   }
@@ -593,13 +593,6 @@ function renderMap(map){
       fireBlock.assign((i%25)*50,(Math.floor(i/25))*50);
       fireBlock.draw();
     }
-    /*
-    else{
-      context.fillStyle = "lightblue";
-      context.strokeStyle = "lightblue";
-      rect((i%25)*50,(Math.floor(i/25)*50),50,50);
-    }
-    */
   }
 }
 
